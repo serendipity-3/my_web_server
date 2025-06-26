@@ -15,20 +15,21 @@
 
 enum class LOG_TYPE {
     CONSOLE,
-    FILE
+    FILE,
+    ALL
 };
 
 // 获取当前时间
 std::string curr_time();
 
 // 打印成功信息到文件或者终端
-void ok(std::string info, LOG_TYPE type);
+void ok(const std::string &info, LOG_TYPE type);
 
 // 打印错误信息
-void no(std::string info,LOG_TYPE type);
+void no(const std::string &info,LOG_TYPE type);
 
 // 信息写到文件里
-void to_file(std::string info, std::string path);
+void to_file(const std::string &info, const std::string &path);
 
 
 

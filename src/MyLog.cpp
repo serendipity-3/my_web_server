@@ -16,25 +16,41 @@ std::string curr_time() {
 }
 
 void ok(const std::string &info, LOG_TYPE type) {
-    std::string msg =  "🎯 ok[" + curr_time() + "]: " + info;
+    std::ostringstream oss;
+    oss << "🎯 Yes,ok[" << curr_time() << "]"
+        << "[" << __FILE__ << ":" << __LINE__ << "]: "
+        << info;
+    std::string msg = oss.str();
 
     if (type == LOG_TYPE::CONSOLE) {
         std::cout << msg << std::endl;
     } else if (type == LOG_TYPE::FILE) {
         to_file(msg, "./ok.log");
+    } else if (type == LOG_TYPE::ALL) {
+        std::cout << msg << std::endl;
+        to_file(msg, "./ok.log");
     }
 }
 
 void no(const std::string &info, LOG_TYPE type) {
-    std::string msg = "❌ no[" + curr_time() + "]: " + info;
+    std::ostringstream oss;
+    oss << "❌ Oh,no[" << curr_time() << "]"
+        << "[" << __FILE__ << ":" << __LINE__ << "]: "
+        << info;
+
+    std::string msg = oss.str();
+
     if (type == LOG_TYPE::CONSOLE) {
         std::cout << msg << std::endl;
     } else if (type == LOG_TYPE::FILE) {
         to_file(msg, "./no.log");
+    } else if (type == LOG_TYPE::ALL) {
+        std::cout << msg << std::endl;
+        to_file(msg, "./no.log");
     }
 }
 
-void to_file(const std::string &info, std::string path) {
+void to_file(const std::string &info, const std::string &path) {
 
     // 只有一个线程能写，从一开始就加锁这样每个打开的 File 结构体的索引都是最新的 = 最后一行。
     std::unique_lock<std::mutex> lock(file_mutex);

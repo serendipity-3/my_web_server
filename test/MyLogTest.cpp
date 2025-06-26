@@ -3,22 +3,63 @@
 //
 
 #include <thread>
+#include <vector>
 
 #include "MyLog.h"
 
 using namespace std;
 
-void write_log_test(int id) {
+auto logType = LOG_TYPE::ALL;
+
+void to_file_test(int id) {
     to_file("线程日志测试 - ID: " + std::to_string(id), "log_test.txt");
 }
 
-int main() {
-    std::thread t1(write_log_test, 1);
-    std::thread t2(write_log_test, 2);
-    std::thread t3(write_log_test, 3);
+void ok_test(int id) {
+    ok("测试 ok thread:" + std::to_string(id), logType);
+}
 
-    t1.join();
-    t2.join();
-    t3.join();
+void no_test(int id) {
+    no("测试 no thread:" + std::to_string(id), logType);
+}
+
+void to_file_test_fun() {
+    std::vector<std::thread> arr;
+    for (int i = 0; i < 10; i++) {
+        arr.push_back(std::thread(to_file_test, i));
+    }
+
+    for (int i = 0; i < arr.size(); i++) {
+        arr[i].join();
+    }
+}
+
+void ok_test_fun() {
+    std::vector<std::thread> arr;
+    for (int i = 0; i < 10; i++) {
+        arr.push_back(std::thread(ok_test, i));
+    }
+
+    for (int i = 0; i < arr.size(); i++) {
+        arr[i].join();
+    }
+}
+
+void no_test_fun() {
+    std::vector<std::thread> arr;
+    for (int i = 0; i < 10; i++) {
+        arr.push_back(std::thread(no_test, i));
+    }
+
+    for (int i = 0; i < arr.size(); i++) {
+        arr[i].join();
+    }
+}
+
+int main() {
+    ok_test_fun();
+    no_test_fun();
+    to_file_test_fun();
+
     return 0;
 }

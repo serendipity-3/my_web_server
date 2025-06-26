@@ -23,7 +23,6 @@ target_include_directories(MyLogTest PRIVATE ${CMAKE_SOURCE_DIR}/include)
 
 add_executable(WebServer ${SOURCES})
 
-# 指定头文件目录（可选，如果需要 include/ 里的 test.h 等）
 target_include_directories(WebServer PRIVATE ${CMAKE_SOURCE_DIR}/include)
 
 # 链接 OpenSSL 库

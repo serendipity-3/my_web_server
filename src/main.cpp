@@ -12,7 +12,7 @@ auto log_type = LOG_TYPE::FILE;
 
 int init_socket(int port) {
     int socket_fd = socket(AF_INET, SOCK_STREAM, 0);
-    if (socket_fd == -1) {
+    if (socket_fd < 0) {
         std::cerr << "socket() failed" << std::endl;
         return -1;
     }
