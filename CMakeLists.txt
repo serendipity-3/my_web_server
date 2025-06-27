@@ -18,9 +18,19 @@ set(SOURCES
         src/MyLog.cpp
 )
 
+set(THREADPOOL
+        test/ThreadPoolTest.cpp
+        src/ThreadPool.cpp
+        src/MyLog.cpp
+)
+
 add_executable(MyLogTest test/MyLogTest.cpp src/MyLog.cpp)
 
 target_include_directories(MyLogTest PRIVATE ${CMAKE_SOURCE_DIR}/include)
+
+add_executable(ThreadPoolTest ${THREADPOOL})
+
+target_include_directories(ThreadPoolTest PRIVATE ${CMAKE_SOURCE_DIR}/include)
 
 add_executable(WebServer ${SOURCES})
 

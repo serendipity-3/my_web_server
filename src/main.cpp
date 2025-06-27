@@ -16,7 +16,7 @@
 
 using namespace std;
 
-auto log_type = LOG_TYPE::ALL;
+extern LOG_TYPE log_type;
 // 控制 epoll 循环
 bool epoll_loop_stop = false;
 

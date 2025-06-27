@@ -4,7 +4,10 @@
 
 #include "MyLog.h"
 
+auto log_type = LOG_TYPE::ALL;
+
 std::mutex file_mutex;
+std::mutex cout_mutex;
 
 std::string curr_time() {
     std::time_t t = std::time(nullptr);
@@ -23,11 +26,16 @@ void ok(const std::string &info, LOG_TYPE type) {
     std::string msg = oss.str();
 
     if (type == LOG_TYPE::CONSOLE) {
+        std::unique_lock<std::mutex> lock(cout_mutex);
         std::cout << msg << std::endl;
     } else if (type == LOG_TYPE::FILE) {
         to_file(msg, "./ok.log");
     } else if (type == LOG_TYPE::ALL) {
-        std::cout << msg << std::endl;
+        {
+            std::unique_lock<std::mutex> lock(cout_mutex);
+            std::cout << msg << std::endl;
+        }
+
         to_file(msg, "./ok.log");
     }
 }

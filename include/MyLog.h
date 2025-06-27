@@ -13,11 +13,14 @@
 #include <mutex> // 互斥锁
 #include <fstream> // 写文件
 
+
 enum class LOG_TYPE {
     CONSOLE,
     FILE,
     ALL
 };
+
+
 
 // 获取当前时间
 std::string curr_time();
