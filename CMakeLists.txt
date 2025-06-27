@@ -6,6 +6,7 @@ project(my_web_server)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+#所有可执行文件都 include 这个
 #include_directories(${CMAKE_SOURCE_DIR}/include)
 
 find_package(OpenSSL REQUIRED)

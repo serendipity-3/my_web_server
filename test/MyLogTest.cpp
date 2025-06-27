@@ -57,9 +57,11 @@ void no_test_fun() {
 }
 
 int main() {
-    ok_test_fun();
-    no_test_fun();
-    to_file_test_fun();
+    // ok_test_fun();
+    // no_test_fun();
+    // to_file_test_fun();
+    cout << "cout test" << endl;
+    cerr << "cerr test" << endl;
 
     return 0;
 }

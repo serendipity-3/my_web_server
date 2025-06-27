@@ -25,7 +25,8 @@ public:
     explicit ThreadPool(size_t coreNum = std::thread::hardware_concurrency()); // 默认 CPU 核心数
     ~ThreadPool();
 
-    void submit(std::function<void()> task); // 主线程放个任务到任务队列里
+    template<typename Func>
+    void submit(Func func); // 主线程放个任务到任务队列里
     void worker_thread(); // 每个工作线程的工作方法
     void stop(); // 线程池停不停
 };
