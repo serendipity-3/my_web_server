@@ -10,12 +10,12 @@ int main(int argc, char *argv[]) {
         tp.submit([i]() {
             std::ostringstream os;
             os << "这是任务 " << i << " 号";
-            ok(os.str(), LOG_TYPE::CONSOLE);
+            ok(os.str(), LOG_TYPE::ALL);
         });
     }
 
     tp.stop();
-    ok("终于结束了", LOG_TYPE::CONSOLE);
+    ok("终于结束了", LOG_TYPE::ALL);
 
     return 0;
 }

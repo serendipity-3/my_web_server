@@ -21,7 +21,6 @@ enum class LOG_TYPE {
 };
 
 
-
 // 获取当前时间
 std::string curr_time();
 

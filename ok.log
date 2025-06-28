@@ -1,10 +1,18 @@
-🎯 Yes,ok[2025-06-26 23:55:23][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:21]: 测试 ok thread:1
-🎯 Yes,ok[2025-06-26 23:55:23][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:21]: 测试 ok thread:7
-🎯 Yes,ok[2025-06-26 23:55:23][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:21]: 测试 ok thread:0
-🎯 Yes,ok[2025-06-26 23:55:23][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:21]: 测试 ok thread:2
-🎯 Yes,ok[2025-06-26 23:55:23][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:21]: 测试 ok thread:4
-🎯 Yes,ok[2025-06-26 23:55:23][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:21]: 测试 ok thread:5
-🎯 Yes,ok[2025-06-26 23:55:23][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:21]: 测试 ok thread:3
-🎯 Yes,ok[2025-06-26 23:55:23][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:21]: 测试 ok thread:9
-🎯 Yes,ok[2025-06-26 23:55:23][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:21]: 测试 ok thread:6
-🎯 Yes,ok[2025-06-26 23:55:23][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:21]: 测试 ok thread:8
+🎯 Yes,ok[2025-06-29 00:47:29][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: server started at port 8888
+🎯 Yes,ok[2025-06-29 00:47:29][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 7 启动了
+🎯 Yes,ok[2025-06-29 00:47:29][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 3 启动了
+🎯 Yes,ok[2025-06-29 00:47:29][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 6 启动了
+🎯 Yes,ok[2025-06-29 00:47:29][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 2 启动了
+🎯 Yes,ok[2025-06-29 00:47:29][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 1 启动了
+🎯 Yes,ok[2025-06-29 00:47:29][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 5 启动了
+🎯 Yes,ok[2025-06-29 00:47:29][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 4 启动了
+🎯 Yes,ok[2025-06-29 00:47:29][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 启动了
+🎯 Yes,ok[2025-06-29 00:47:42][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 7 退休了
+🎯 Yes,ok[2025-06-29 00:47:42][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 3 退休了
+🎯 Yes,ok[2025-06-29 00:47:42][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 6 退休了
+🎯 Yes,ok[2025-06-29 00:47:42][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 2 退休了
+🎯 Yes,ok[2025-06-29 00:47:42][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 1 退休了
+🎯 Yes,ok[2025-06-29 00:47:42][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 5 退休了
+🎯 Yes,ok[2025-06-29 00:47:42][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 4 退休了
+🎯 Yes,ok[2025-06-29 00:47:42][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 退休了
+🎯 Yes,ok[2025-06-29 00:47:42][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: server stopped

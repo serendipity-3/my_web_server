@@ -12,7 +12,7 @@ using namespace std;
 auto logType = LOG_TYPE::ALL;
 
 void to_file_test(int id) {
-    to_file("线程日志测试 - ID: " + std::to_string(id), "log_test.txt");
+    to_file("线程日志测试 - ID: " + std::to_string(id), "./log_test.txt");
 }
 
 void ok_test(int id) {
@@ -57,11 +57,11 @@ void no_test_fun() {
 }
 
 int main() {
-    // ok_test_fun();
-    // no_test_fun();
-    // to_file_test_fun();
-    cout << "cout test" << endl;
-    cerr << "cerr test" << endl;
+    ok_test_fun();
+    no_test_fun();
+    to_file_test_fun();
+    // cout << "cout test" << endl;
+    // cerr << "cerr test" << endl;
 
     return 0;
 }

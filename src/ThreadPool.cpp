@@ -6,13 +6,15 @@
 
 #include "MyLog.h"
 
+
+
 ThreadPool::ThreadPool(size_t coreNum): stop_(false) {
     for (int i = 0; i < coreNum; i++) {
         // 启动一个线程干活
         this->threads_.emplace_back([this, i]() {
             std::ostringstream oss;
             oss << "线程 " << i << " 启动了";
-            ok(oss.str(), log_type);
+            ok(oss.str(), running_log_type);
             while (true) {
                 std::function<void()> task;
                 {
@@ -31,7 +33,7 @@ ThreadPool::ThreadPool(size_t coreNum): stop_(false) {
                     if (this->stop_ && this->tasks_.empty()) {
                         std::ostringstream oss3;
                         oss3 << "线程 " << i << " 退休了";
-                        ok(oss3.str(), log_type);
+                        ok(oss3.str(), running_log_type);
                         return;
                     }
                     // 拿到一个任务
@@ -43,7 +45,7 @@ ThreadPool::ThreadPool(size_t coreNum): stop_(false) {
 
                 std::ostringstream oss2;
                 oss2 << "线程 " << i << " 干了一个活";
-                ok(oss2.str(), log_type);
+                ok(oss2.str(), running_log_type);
             }
         });
     }

@@ -14,7 +14,7 @@
 
 #include "MyLog.h"
 
-extern LOG_TYPE log_type;
+extern LOG_TYPE running_log_type;
 
 class ThreadPool {
 private:
