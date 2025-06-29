@@ -2,7 +2,7 @@
 #include <cstring>
 #include <iostream>
 #include <arpa/inet.h>
-#include <sys/epoll.h> // epoll
+#include <sys/epoll.h> // epoll_create(), ...
 #include <fcntl.h>      // fcntl() 设置非阻塞
 #include<sys/socket.h> // socket(), bind(), listen(), ...
 #include <netinet/in.h> // socket_in

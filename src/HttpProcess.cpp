@@ -67,16 +67,18 @@ void handle_client_read(int client_fd) {
 
     // 完整的请求，开始干活
     if (connection.request_completed) {
+        std::map<std::string, std::string> request_map;
         // 解析成 map
-        std::unordered_map<std::string, std::string> request_map = request_str_to_map(connection.read_buffer);
+        request_str_to_map(connection.read_buffer, request_map);
 
-        send_response(connection, request_map);
+        process_http(request_map, connection);
 
         // 连接处理完毕，epoll 中拿掉，关掉文件描述符，
         defer_close_fd(client_fd);
     }
     // 不完整的请求而且内核没数据了，所以等下一次 epoll 通知吧
 }
+
 
 HttpParseResult check_http_request_status(const std::string& request) {
     // 1. 查找 \r\n\r\n，判断 header 是否完整
@@ -129,58 +131,56 @@ HttpParseResult check_http_request_status(const std::string& request) {
 }
 
 
-std::unordered_map<std::string, std::string> request_str_to_map(const std::string & string) {
+int request_str_to_map(const std::string & request_str,std::map<std::string, std::string> &request_map) {
+    // 分开(请求行+请求头)和(请求体)
+
+
+    // 读请求行，根据 \r\n 和空格分割成[方法,路径,版本]分别放到 map 里
+
+
+    // 读请求头，根据 \r\n 和 : 分割成[请求头名, 请求头值]当 key-val 放到 map 里
+
+
+    // [假如有请求体] 根据 \r\n\r\n，把之后的所有字符放到 map 里
+
 
 }
 
-std::map<std::string, std::string> get_http_request(Connection &connection) {
 
+int process_http(std::map<std::string, std::string> &request, Connection &connection) {
 
-    // 拿到请求行
-
-    // 拿到请求头
-
-
-    // 拿到请求体
 
 }
 
-std::string process_http(std::map<std::string, std::string> request, std::string ip) {
+std::string process_http_get(std::map<std::string, std::string> &request, Connection &connection) {
 
 }
 
-std::string process_http_get(std::map<std::string, std::string> request, std::string ip) {
-
-}
-
-std::string process_http_post(std::map<std::string, std::string> request, std::string ip) {
+std::string process_http_post(std::map<std::string, std::string> &request, Connection &connection) {
     // TODO
 }
 
-std::string process_http_delete(std::map<std::string, std::string> request, std::string ip) {
+std::string process_http_delete(std::map<std::string, std::string> &request, Connection &connection) {
     // TODO
 }
 
-std::string process_http_put(std::map<std::string, std::string> request, std::string ip) {
+std::string process_http_put(std::map<std::string, std::string> &request, Connection &connection) {
     // TODO
 }
 
-std::string process_http_options(std::map<std::string, std::string> request, std::string ip) {
+std::string process_http_options(std::map<std::string, std::string> &request, Connection &connection) {
     // TODO
 }
 
-std::string process_http_head(std::map<std::string, std::string> request, std::string ip) {
+std::string process_http_head(std::map<std::string, std::string> &request,Connection &connection) {
     // TODO
 }
 
 
-std::string process_http_patch(std::map<std::string, std::string> request, std::string ip) {
+std::string process_http_patch(std::map<std::string, std::string> &request, Connection &connection) {
     // TODO
 }
 
-bool send_response(Connection &connection, std::unordered_map<std::string, std::string> request_map) {
-
-}
 
 
 

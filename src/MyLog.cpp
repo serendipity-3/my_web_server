@@ -82,6 +82,3 @@ void to_file(const std::string &info, const std::string &path) {
     log_file.close();
     lock.unlock();
 }
-
-
-

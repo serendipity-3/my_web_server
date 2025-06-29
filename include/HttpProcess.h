@@ -42,36 +42,37 @@ enum class HttpParseResult {
     MalformedHeader     // Content-Length 解析失败
 };
 
-constexpr size_t MAX_HEADER_SIZE = 8192;                // 8KB 请求头限制
+constexpr size_t MAX_HEADER_SIZE = 8 * 1024;                // 8KB 请求头限制
 constexpr size_t MAX_BODY_SIZE = 5 * 1024 * 1024;        // 5MB 请求体限制
 
 
 // 从客户端 fd 里接收 HTTP 请求数据，并处理数据，返回给客户端数据
 void handle_client_read(int client_fd);
 
+// 检查请求的所有数据完整不？太大不？形式对不？
 HttpParseResult check_http_request_status(const std::string& request);
 
 // 从客户端 fd 里拿到 HTTP 请求
 std::map<std::string, std::string> get_http_request(Connection &connection);
 
 // 字符串转 map
-std::unordered_map<std::string, std::string> request_str_to_map(const std::string & string);
+int request_str_to_map(const std::string & request_str, std::map<std::string, std::string> &request_map);
+
 // 拿到请求后，处理 HTTP 请求
-std::string process_http(std::map<std::string, std::string> request, std::string ip);
+int process_http(std::map<std::string, std::string> &request, Connection &connection);
 
 // 各种支持的方法
-std::string process_http_get(std::map<std::string, std::string> request, std::string ip);
-std::string process_http_post(std::map<std::string, std::string> request, std::string ip);
-std::string process_http_put(std::map<std::string, std::string> request, std::string ip);
-std::string process_http_delete(std::map<std::string, std::string> request, std::string ip);
-std::string process_http_options(std::map<std::string, std::string> request, std::string ip);
-std::string process_http_head(std::map<std::string, std::string> request, std::string ip);
-std::string process_http_patch(std::map<std::string, std::string> request, std::string ip);
+std::string process_http_get(std::map<std::string, std::string> &request, Connection &connection);
+std::string process_http_post(std::map<std::string, std::string> &request, Connection &connection);
+std::string process_http_put(std::map<std::string, std::string> &request, Connection &connection);
+std::string process_http_delete(std::map<std::string, std::string> &request, Connection &connection);
+std::string process_http_options(std::map<std::string, std::string> &request, Connection &connection);
+std::string process_http_head(std::map<std::string, std::string> &request, Connection &connection);
+std::string process_http_patch(std::map<std::string, std::string> &request, Connection &connection);
 
-bool send_response(Connection &connection, std::unordered_map<std::string, std::string> request_map);
-
-int file_exists(std::string filename);
-
-std::string get_file_content(std::string filename);
+// 文件老哥在不
+int file_exists(std::string &filename);
+// 拿所有文件内容转字符串
+std::string get_file_content(std::string &content, std::string &filename);
 
 #endif //HTTP_H
