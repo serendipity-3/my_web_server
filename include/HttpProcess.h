@@ -62,13 +62,14 @@ int request_str_to_map(const std::string & request_str, std::map<std::string, st
 int process_http(std::map<std::string, std::string> &request, Connection &connection);
 
 // 各种支持的方法
-std::string process_http_get(std::map<std::string, std::string> &request, Connection &connection);
-std::string process_http_post(std::map<std::string, std::string> &request, Connection &connection);
-std::string process_http_put(std::map<std::string, std::string> &request, Connection &connection);
-std::string process_http_delete(std::map<std::string, std::string> &request, Connection &connection);
-std::string process_http_options(std::map<std::string, std::string> &request, Connection &connection);
-std::string process_http_head(std::map<std::string, std::string> &request, Connection &connection);
-std::string process_http_patch(std::map<std::string, std::string> &request, Connection &connection);
+int process_http_get(std::map<std::string, std::string> &request, Connection &connection);
+int process_http_post(std::map<std::string, std::string> &request, Connection &connection);
+int process_http_put(std::map<std::string, std::string> &request, Connection &connection);
+int process_http_delete(std::map<std::string, std::string> &request, Connection &connection);
+int process_http_options(std::map<std::string, std::string> &request, Connection &connection);
+int process_http_head(std::map<std::string, std::string> &request, Connection &connection);
+int process_http_patch(std::map<std::string, std::string> &request, Connection &connection);
+int process_http_other(std::map<std::string, std::string> &request_map, Connection &connection);
 
 // 文件老哥在不
 int file_exists(std::string &filename);

@@ -5,9 +5,6 @@
 #include "HttpProcess.h"
 
 
-
-
-
 // 线程池里的线程要干的活
 void handle_client_read(int client_fd) {
     // 拿到 connections 里的对应连接
@@ -34,23 +31,24 @@ void handle_client_read(int client_fd) {
 
             switch (check_http_request_status(connection.read_buffer)) {
                 case HttpParseResult::Complete:
+                    // 终于是完整的请求了
                     connection.request_completed = true;
                     break;
                 case HttpParseResult::Incomplete:
-                    continue;  // 再试一次 recv
-                    // 垃圾请求，滚蛋了
+                    continue; // 再试一次 recv
+                // 垃圾请求，滚蛋
                 case HttpParseResult::HeaderTooLarge:
                 case HttpParseResult::BodyTooLarge:
                 case HttpParseResult::MalformedHeader:
                     no("请求非法或请求太大了，关闭连接", running_log_type);
-                    defer_close_fd( client_fd);
+                    defer_close_fd(client_fd);
                     // 这个活不用干了
                     return;
             }
         } else if (bytes_received == 0) {
             no("客户端连接关闭了", running_log_type);
             defer_close_fd(client_fd);
-            // 这个活不用干了
+            // 甲方跑路了，不用干这个活了
             return;
         } else {
             if (errno == EAGAIN || errno == EWOULDBLOCK) {
@@ -67,20 +65,22 @@ void handle_client_read(int client_fd) {
 
     // 完整的请求，开始干活
     if (connection.request_completed) {
+        //  TODO: 这个 map 以后能放到全局变量 connections 里，配合 epoll 放到线程池里处理写事件
+        // 用了个局部变量，默认后续的 process_http() 能处理完这一次请求，响应数据完整发送，交给主线程关闭客户端 fd
         std::map<std::string, std::string> request_map;
         // 解析成 map
         request_str_to_map(connection.read_buffer, request_map);
 
         process_http(request_map, connection);
 
-        // 连接处理完毕，epoll 中拿掉，关掉文件描述符，
+        // 放到全局变量 close_queue 里，让主线程在处理完所有事件后，关闭客户端 fd
         defer_close_fd(client_fd);
     }
     // 不完整的请求而且内核没数据了，所以等下一次 epoll 通知吧
 }
 
 
-HttpParseResult check_http_request_status(const std::string& request) {
+HttpParseResult check_http_request_status(const std::string &request) {
     // 1. 查找 \r\n\r\n，判断 header 是否完整
     size_t header_end = request.find("\r\n\r\n");
     if (header_end == std::string::npos) {
@@ -131,58 +131,128 @@ HttpParseResult check_http_request_status(const std::string& request) {
 }
 
 
-int request_str_to_map(const std::string & request_str,std::map<std::string, std::string> &request_map) {
-    // 分开(请求行+请求头)和(请求体)
+int request_str_to_map(const std::string &request_str, std::map<std::string, std::string> &request_map) {
+    // 对不对
+    int main_part_end = request_str.find("\r\n\r\n");
+    if (main_part_end == std::string::npos) {
+        no("没找到 \r\n\r\n HTTP 字符串转 Map 失败", running_log_type);
+        return -1;
+    }
 
+    // 分开(请求行+请求头)和(请求体)
+    std::string main_part = request_str.substr(0, main_part_end);
+    // 跳过 \r\n\r\n
+    std::string body_part = request_str.substr(main_part_end + 4);
 
     // 读请求行，根据 \r\n 和空格分割成[方法,路径,版本]分别放到 map 里
+    std::string line;
+    std::istringstream main_part_stream(main_part);
+    std::istringstream line_stream(line);
 
+    std::getline(main_part_stream, line);
+    if (!line.empty() && line.back() == '\r') {
+        line.pop_back();
+    }
 
     // 读请求头，根据 \r\n 和 : 分割成[请求头名, 请求头值]当 key-val 放到 map 里
+    std::string method, path, version;
+    line_stream >> method >> path >> version;
+
+    request_map["Method"] = std::move(method);
+    request_map["Path"] = std::move(path);
+    request_map["Version"] = std::move(version);
+
+    // 拿到请求头的每一行
+    while (std::getline(main_part_stream, line)) {
+        // 干掉末尾的 '\r'
+        if (!line.empty() && line.back() == '\r') {
+            line.pop_back();
+        }
+        // 拿到一行中的 key val
+        size_t colon = line.find(':');
+        if (colon != std::string::npos) {
+            std::string key = line.substr(0, colon);
+            std::string value = line.substr(colon + 1);
+            // 去掉可能开头的空格
+            while (!value.empty() && value[0] == ' ') {
+                value.erase(value.begin());
+            }
+            request_map[key] = std::move(value);
+        }
+    }
+
+    // 假如有请求体放到 map 里
+    if (!body_part.empty()) {
+        request_map["Body"] = std::move(body_part);
+    }
+    return 0;
+}
 
 
-    // [假如有请求体] 根据 \r\n\r\n，把之后的所有字符放到 map 里
+int process_http(std::map<std::string, std::string> &request_map, Connection &connection) {
+    auto it = request_map.find("Method");
+    if (it == request_map.end()) {
+        no("没有 HTTP 请求方法", running_log_type);
+        return -1;
+    }
+    std::string method = it->second;
+    int success = 0;
+
+    if (method == "GET") {
+        success = process_http_get(request_map, connection);
+    } else if (method == "POST") {
+        success = process_http_post(request_map, connection);
+    } else if (method == "HEAD") {
+        // 处理 HEAD 请求
+        success = process_http_head(request_map, connection);
+    } else if (method == "PUT") {
+        // 处理 PUT 请求
+        success = process_http_put(request_map, connection);
+    } else if (method == "DELETE") {
+=
+        success = process_http_delete(request_map, connection);
+    } else if (method == "OPTIONS") {
+=
+        success = process_http_options(request_map, connection);
+    } else if (method == "PATCH") {
+=
+        success = process_http_patch(request_map, connection);
+    } else {
+        success = process_http_other(request_map, connection);
+    }
 
 
 }
 
-
-int process_http(std::map<std::string, std::string> &request, Connection &connection) {
-
+int process_http_get(std::map<std::string, std::string> &request_map, Connection &connection) {
 
 }
 
-std::string process_http_get(std::map<std::string, std::string> &request, Connection &connection) {
-
-}
-
-std::string process_http_post(std::map<std::string, std::string> &request, Connection &connection) {
+int process_http_post(std::map<std::string, std::string> &request_map, Connection &connection) {
     // TODO
 }
 
-std::string process_http_delete(std::map<std::string, std::string> &request, Connection &connection) {
+int process_http_delete(std::map<std::string, std::string> &request_map, Connection &connection) {
     // TODO
 }
 
-std::string process_http_put(std::map<std::string, std::string> &request, Connection &connection) {
+int process_http_put(std::map<std::string, std::string> &request_map, Connection &connection) {
     // TODO
 }
 
-std::string process_http_options(std::map<std::string, std::string> &request, Connection &connection) {
+int process_http_options(std::map<std::string, std::string> &request_map, Connection &connection) {
     // TODO
 }
 
-std::string process_http_head(std::map<std::string, std::string> &request,Connection &connection) {
-    // TODO
-}
-
-
-std::string process_http_patch(std::map<std::string, std::string> &request, Connection &connection) {
+int process_http_head(std::map<std::string, std::string> &request_map, Connection &connection) {
     // TODO
 }
 
 
+int process_http_patch(std::map<std::string, std::string> &request_map, Connection &connection) {
+    // TODO
+}
 
+int process_http_other(std::map<std::string, std::string> &request_map, Connection &connection) {
 
-
-
+}
