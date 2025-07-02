@@ -52,9 +52,6 @@ void handle_client_read(int client_fd);
 // 检查请求的所有数据完整不？太大不？形式对不？
 HttpParseResult check_http_request_status(const std::string& request);
 
-// 从客户端 fd 里拿到 HTTP 请求
-std::map<std::string, std::string> get_http_request(Connection &connection);
-
 // 字符串转 map
 int request_str_to_map(const std::string & request_str, std::map<std::string, std::string> &request_map);
 
@@ -72,7 +69,7 @@ int process_http_patch(std::map<std::string, std::string> &request, Connection &
 int process_http_other(std::map<std::string, std::string> &request_map, Connection &connection);
 
 // 文件老哥在不
-int file_exists(std::string &filename);
+bool file_exists(std::string &filename);
 // 文件多大了
 int64_t get_file_size(std::string &filename);
 // 拿所有文件内容转字符串

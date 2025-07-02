@@ -16,3 +16,429 @@
 🎯 Yes,ok[2025-06-29 00:47:42][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 4 退休了
 🎯 Yes,ok[2025-06-29 00:47:42][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 退休了
 🎯 Yes,ok[2025-06-29 00:47:42][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: server stopped
+🎯 Yes,ok[2025-07-03 00:39:55][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 5 启动了
+🎯 Yes,ok[2025-07-03 00:39:55][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 3 启动了
+🎯 Yes,ok[2025-07-03 00:39:55][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 6 启动了
+🎯 Yes,ok[2025-07-03 00:39:55][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 7 启动了
+🎯 Yes,ok[2025-07-03 00:39:55][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 1 启动了
+🎯 Yes,ok[2025-07-03 00:39:55][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 4 启动了
+🎯 Yes,ok[2025-07-03 00:39:55][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 启动了
+🎯 Yes,ok[2025-07-03 00:39:55][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: server started at port 8888
+🎯 Yes,ok[2025-07-03 00:39:55][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 2 启动了
+🎯 Yes,ok[2025-07-03 00:41:02][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: IP=127.0.0.1 PORT=48694的用户执行了  方法;请求路径: 
+🎯 Yes,ok[2025-07-03 00:41:02][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 执行完毕
+🎯 Yes,ok[2025-07-03 00:41:02][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 5 干了一个活
+🎯 Yes,ok[2025-07-03 00:41:02][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: IP=127.0.0.1 PORT=48694的用户执行了  方法;请求路径: 
+🎯 Yes,ok[2025-07-03 00:41:02][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 执行完毕
+🎯 Yes,ok[2025-07-03 00:41:02][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 3 干了一个活
+🎯 Yes,ok[2025-07-03 00:46:41][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 6 退休了
+🎯 Yes,ok[2025-07-03 00:46:41][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 7 退休了
+🎯 Yes,ok[2025-07-03 00:46:41][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 1 退休了
+🎯 Yes,ok[2025-07-03 00:46:41][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 4 退休了
+🎯 Yes,ok[2025-07-03 00:46:41][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 退休了
+🎯 Yes,ok[2025-07-03 00:46:41][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 2 退休了
+🎯 Yes,ok[2025-07-03 00:46:41][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 5 退休了
+🎯 Yes,ok[2025-07-03 00:46:41][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 3 退休了
+🎯 Yes,ok[2025-07-03 00:46:41][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: server stopped
+🎯 Yes,ok[2025-07-03 00:46:44][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 启动了
+🎯 Yes,ok[2025-07-03 00:46:44][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 3 启动了
+🎯 Yes,ok[2025-07-03 00:46:44][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 2 启动了
+🎯 Yes,ok[2025-07-03 00:46:44][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 4 启动了
+🎯 Yes,ok[2025-07-03 00:46:44][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 1 启动了
+🎯 Yes,ok[2025-07-03 00:46:44][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 5 启动了
+🎯 Yes,ok[2025-07-03 00:46:44][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 6 启动了
+🎯 Yes,ok[2025-07-03 00:46:44][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: server started at port 8888
+🎯 Yes,ok[2025-07-03 00:46:44][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 7 启动了
+🎯 Yes,ok[2025-07-03 00:46:52][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: IP=127.0.0.1 PORT=47008 的用户执行了  方法;请求路径: 
+🎯 Yes,ok[2025-07-03 00:46:52][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 执行完毕
+🎯 Yes,ok[2025-07-03 00:46:52][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 干了一个活
+🎯 Yes,ok[2025-07-03 00:46:52][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: IP=127.0.0.1 PORT=47008 的用户执行了  方法;请求路径: 
+🎯 Yes,ok[2025-07-03 00:46:52][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 执行完毕
+🎯 Yes,ok[2025-07-03 00:46:52][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 3 干了一个活
+🎯 Yes,ok[2025-07-03 00:48:58][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 2 退休了
+🎯 Yes,ok[2025-07-03 00:48:58][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 4 退休了
+🎯 Yes,ok[2025-07-03 00:48:58][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 1 退休了
+🎯 Yes,ok[2025-07-03 00:48:58][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 5 退休了
+🎯 Yes,ok[2025-07-03 00:48:58][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 7 退休了
+🎯 Yes,ok[2025-07-03 00:48:58][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 6 退休了
+🎯 Yes,ok[2025-07-03 00:48:58][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 退休了
+🎯 Yes,ok[2025-07-03 00:48:58][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 3 退休了
+🎯 Yes,ok[2025-07-03 00:48:58][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: server stopped
+🎯 Yes,ok[2025-07-03 00:49:01][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 1 启动了
+🎯 Yes,ok[2025-07-03 00:49:01][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 启动了
+🎯 Yes,ok[2025-07-03 00:49:01][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 2 启动了
+🎯 Yes,ok[2025-07-03 00:49:01][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 5 启动了
+🎯 Yes,ok[2025-07-03 00:49:01][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: server started at port 8888
+🎯 Yes,ok[2025-07-03 00:49:01][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 7 启动了
+🎯 Yes,ok[2025-07-03 00:49:01][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 6 启动了
+🎯 Yes,ok[2025-07-03 00:49:01][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 4 启动了
+🎯 Yes,ok[2025-07-03 00:49:01][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 3 启动了
+🎯 Yes,ok[2025-07-03 00:49:05][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: IP=127.0.0.1 PORT=39548 的用户执行了  方法;请求路径: 
+🎯 Yes,ok[2025-07-03 00:49:05][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 执行完毕
+🎯 Yes,ok[2025-07-03 00:49:05][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 1 干了一个活
+🎯 Yes,ok[2025-07-03 00:49:05][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: IP=127.0.0.1 PORT=39548 的用户执行了  方法;请求路径: 
+🎯 Yes,ok[2025-07-03 00:49:05][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 执行完毕
+🎯 Yes,ok[2025-07-03 00:49:05][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 干了一个活
+🎯 Yes,ok[2025-07-03 00:50:11][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 2 退休了
+🎯 Yes,ok[2025-07-03 00:50:11][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 5 退休了
+🎯 Yes,ok[2025-07-03 00:50:11][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 6 退休了
+🎯 Yes,ok[2025-07-03 00:50:11][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 4 退休了
+🎯 Yes,ok[2025-07-03 00:50:11][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 3 退休了
+🎯 Yes,ok[2025-07-03 00:50:11][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 7 退休了
+🎯 Yes,ok[2025-07-03 00:50:11][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 1 退休了
+🎯 Yes,ok[2025-07-03 00:50:11][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 退休了
+🎯 Yes,ok[2025-07-03 00:50:11][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: server stopped
+🎯 Yes,ok[2025-07-03 00:50:14][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 3 启动了
+🎯 Yes,ok[2025-07-03 00:50:14][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 4 启动了
+🎯 Yes,ok[2025-07-03 00:50:14][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 5 启动了
+🎯 Yes,ok[2025-07-03 00:50:14][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 6 启动了
+🎯 Yes,ok[2025-07-03 00:50:14][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: server started at port 8888
+🎯 Yes,ok[2025-07-03 00:50:14][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 2 启动了
+🎯 Yes,ok[2025-07-03 00:50:14][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 启动了
+🎯 Yes,ok[2025-07-03 00:50:14][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 7 启动了
+🎯 Yes,ok[2025-07-03 00:50:14][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 1 启动了
+🎯 Yes,ok[2025-07-03 00:50:19][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: IP=127.0.0.1 PORT=60702 的用户执行了  方法;请求路径: 
+🎯 Yes,ok[2025-07-03 00:50:19][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 执行完毕
+🎯 Yes,ok[2025-07-03 00:50:19][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 3 干了一个活
+🎯 Yes,ok[2025-07-03 00:50:19][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: IP=127.0.0.1 PORT=60702 的用户执行了  方法;请求路径: 
+🎯 Yes,ok[2025-07-03 00:50:19][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 执行完毕
+🎯 Yes,ok[2025-07-03 00:50:19][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 4 干了一个活
+🎯 Yes,ok[2025-07-03 00:51:25][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 5 退休了
+🎯 Yes,ok[2025-07-03 00:51:25][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 4 退休了
+🎯 Yes,ok[2025-07-03 00:51:25][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 2 退休了
+🎯 Yes,ok[2025-07-03 00:51:25][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 退休了
+🎯 Yes,ok[2025-07-03 00:51:25][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 7 退休了
+🎯 Yes,ok[2025-07-03 00:51:25][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 1 退休了
+🎯 Yes,ok[2025-07-03 00:51:25][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 3 退休了
+🎯 Yes,ok[2025-07-03 00:51:25][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 6 退休了
+🎯 Yes,ok[2025-07-03 00:51:25][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: server stopped
+🎯 Yes,ok[2025-07-03 00:51:27][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 启动了
+🎯 Yes,ok[2025-07-03 00:51:27][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 2 启动了
+🎯 Yes,ok[2025-07-03 00:51:27][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 1 启动了
+🎯 Yes,ok[2025-07-03 00:51:27][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 3 启动了
+🎯 Yes,ok[2025-07-03 00:51:27][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 4 启动了
+🎯 Yes,ok[2025-07-03 00:51:27][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 5 启动了
+🎯 Yes,ok[2025-07-03 00:51:27][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 6 启动了
+🎯 Yes,ok[2025-07-03 00:51:27][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 7 启动了
+🎯 Yes,ok[2025-07-03 00:51:27][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: server started at port 8888
+🎯 Yes,ok[2025-07-03 00:51:38][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: GET /:8080localhost/index.html HTTP/1.1
+🎯 Yes,ok[2025-07-03 00:51:38][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: IP=127.0.0.1 PORT=51710 的用户执行了  方法;请求路径: 
+🎯 Yes,ok[2025-07-03 00:51:38][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 执行完毕
+🎯 Yes,ok[2025-07-03 00:51:38][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 干了一个活
+🎯 Yes,ok[2025-07-03 00:51:38][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: GET /:8080localhost/index.html HTTP/1.1
+🎯 Yes,ok[2025-07-03 00:51:38][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: IP=127.0.0.1 PORT=51710 的用户执行了  方法;请求路径: 
+🎯 Yes,ok[2025-07-03 00:51:38][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 执行完毕
+🎯 Yes,ok[2025-07-03 00:51:38][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 2 干了一个活
+🎯 Yes,ok[2025-07-03 00:53:02][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 1 退休了
+🎯 Yes,ok[2025-07-03 00:53:02][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 3 退休了
+🎯 Yes,ok[2025-07-03 00:53:02][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 4 退休了
+🎯 Yes,ok[2025-07-03 00:53:02][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 5 退休了
+🎯 Yes,ok[2025-07-03 00:53:02][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 6 退休了
+🎯 Yes,ok[2025-07-03 00:53:02][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 7 退休了
+🎯 Yes,ok[2025-07-03 00:53:02][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 退休了
+🎯 Yes,ok[2025-07-03 00:53:02][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 2 退休了
+🎯 Yes,ok[2025-07-03 00:53:02][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: server stopped
+🎯 Yes,ok[2025-07-03 00:53:05][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 1 启动了
+🎯 Yes,ok[2025-07-03 00:53:05][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 4 启动了
+🎯 Yes,ok[2025-07-03 00:53:05][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 5 启动了
+🎯 Yes,ok[2025-07-03 00:53:05][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 7 启动了
+🎯 Yes,ok[2025-07-03 00:53:05][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 6 启动了
+🎯 Yes,ok[2025-07-03 00:53:05][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: server started at port 8888
+🎯 Yes,ok[2025-07-03 00:53:05][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 启动了
+🎯 Yes,ok[2025-07-03 00:53:05][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 3 启动了
+🎯 Yes,ok[2025-07-03 00:53:05][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 2 启动了
+🎯 Yes,ok[2025-07-03 00:53:08][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: GET /:8080localhost/index.html HTTP/1.1
+User-Agent: Apifox/1.0.0 (https://apifox.com)
+Accept: */*
+Host: localhost:8888
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+
+
+🎯 Yes,ok[2025-07-03 00:53:08][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: GET /:8080localhost/index.html HTTP/1.1
+🎯 Yes,ok[2025-07-03 00:53:08][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: IP=127.0.0.1 PORT=45868 的用户执行了  方法;请求路径: 
+🎯 Yes,ok[2025-07-03 00:53:08][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 执行完毕
+🎯 Yes,ok[2025-07-03 00:53:08][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 4 干了一个活
+🎯 Yes,ok[2025-07-03 00:53:08][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 5 干了一个活
+🎯 Yes,ok[2025-07-03 00:56:33][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 1 退休了
+🎯 Yes,ok[2025-07-03 00:56:33][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 4 退休了
+🎯 Yes,ok[2025-07-03 00:56:33][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 6 退休了
+🎯 Yes,ok[2025-07-03 00:56:33][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 3 退休了
+🎯 Yes,ok[2025-07-03 00:56:33][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 2 退休了
+🎯 Yes,ok[2025-07-03 00:56:33][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 退休了
+🎯 Yes,ok[2025-07-03 00:56:33][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 5 退休了
+🎯 Yes,ok[2025-07-03 00:56:33][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 7 退休了
+🎯 Yes,ok[2025-07-03 00:56:33][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: server stopped
+🎯 Yes,ok[2025-07-03 00:56:36][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 2 启动了
+🎯 Yes,ok[2025-07-03 00:56:36][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 启动了
+🎯 Yes,ok[2025-07-03 00:56:36][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 4 启动了
+🎯 Yes,ok[2025-07-03 00:56:36][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 3 启动了
+🎯 Yes,ok[2025-07-03 00:56:36][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 1 启动了
+🎯 Yes,ok[2025-07-03 00:56:36][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 5 启动了
+🎯 Yes,ok[2025-07-03 00:56:36][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: server started at port 8888
+🎯 Yes,ok[2025-07-03 00:56:36][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 6 启动了
+🎯 Yes,ok[2025-07-03 00:56:36][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 7 启动了
+🎯 Yes,ok[2025-07-03 00:56:40][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 读了 185 字节内容: GET /:8080localhost/index.html HTTP/1.1
+User-Agent: Apifox/1.0.0 (https://apifox.com)
+Accept: */*
+Host: localhost:8888
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+
+
+🎯 Yes,ok[2025-07-03 00:56:40][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: GET /:8080localhost/index.html HTTP/1.1
+🎯 Yes,ok[2025-07-03 00:56:40][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: IP=127.0.0.1 PORT=38220 的用户执行了  方法;请求路径: 
+🎯 Yes,ok[2025-07-03 00:56:40][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 执行完毕
+🎯 Yes,ok[2025-07-03 00:56:40][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 2 干了一个活
+🎯 Yes,ok[2025-07-03 00:56:40][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: GET /:8080localhost/index.html HTTP/1.1
+🎯 Yes,ok[2025-07-03 00:56:40][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: IP=127.0.0.1 PORT=38220 的用户执行了  方法;请求路径: 
+🎯 Yes,ok[2025-07-03 00:56:40][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 执行完毕
+🎯 Yes,ok[2025-07-03 00:56:40][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 干了一个活
+🎯 Yes,ok[2025-07-03 00:58:19][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 3 退休了
+🎯 Yes,ok[2025-07-03 00:58:19][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 4 退休了
+🎯 Yes,ok[2025-07-03 00:58:19][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 1 退休了
+🎯 Yes,ok[2025-07-03 00:58:19][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 5 退休了
+🎯 Yes,ok[2025-07-03 00:58:19][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 6 退休了
+🎯 Yes,ok[2025-07-03 00:58:19][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 7 退休了
+🎯 Yes,ok[2025-07-03 00:58:19][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 2 退休了
+🎯 Yes,ok[2025-07-03 00:58:19][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 退休了
+🎯 Yes,ok[2025-07-03 00:58:19][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: server stopped
+🎯 Yes,ok[2025-07-03 00:58:21][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 1 启动了
+🎯 Yes,ok[2025-07-03 00:58:21][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 启动了
+🎯 Yes,ok[2025-07-03 00:58:21][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 3 启动了
+🎯 Yes,ok[2025-07-03 00:58:21][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 5 启动了
+🎯 Yes,ok[2025-07-03 00:58:21][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 4 启动了
+🎯 Yes,ok[2025-07-03 00:58:21][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 6 启动了
+🎯 Yes,ok[2025-07-03 00:58:21][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 2 启动了
+🎯 Yes,ok[2025-07-03 00:58:21][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: server started at port 8888
+🎯 Yes,ok[2025-07-03 00:58:21][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 7 启动了
+🎯 Yes,ok[2025-07-03 00:58:32][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 读了 185 字节内容: GET /:8080localhost/index.html HTTP/1.1
+User-Agent: Apifox/1.0.0 (https://apifox.com)
+Accept: */*
+Host: localhost:8888
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+
+
+🎯 Yes,ok[2025-07-03 00:58:32][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: GET /:8080localhost/index.html HTTP/1.1
+🎯 Yes,ok[2025-07-03 00:58:32][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: IP=127.0.0.1 PORT=36434 的用户执行了  方法;请求路径: 
+🎯 Yes,ok[2025-07-03 00:58:32][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 执行完毕
+🎯 Yes,ok[2025-07-03 00:58:32][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 1 干了一个活
+🎯 Yes,ok[2025-07-03 00:58:32][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: GET /:8080localhost/index.html HTTP/1.1
+🎯 Yes,ok[2025-07-03 00:58:32][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: IP=127.0.0.1 PORT=36434 的用户执行了  方法;请求路径: 
+🎯 Yes,ok[2025-07-03 00:58:32][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 执行完毕
+🎯 Yes,ok[2025-07-03 00:58:32][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 干了一个活
+🎯 Yes,ok[2025-07-03 00:59:04][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 3 退休了
+🎯 Yes,ok[2025-07-03 00:59:04][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 5 退休了
+🎯 Yes,ok[2025-07-03 00:59:04][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 4 退休了
+🎯 Yes,ok[2025-07-03 00:59:04][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 6 退休了
+🎯 Yes,ok[2025-07-03 00:59:04][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 2 退休了
+🎯 Yes,ok[2025-07-03 00:59:04][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 7 退休了
+🎯 Yes,ok[2025-07-03 00:59:04][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 1 退休了
+🎯 Yes,ok[2025-07-03 00:59:04][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 退休了
+🎯 Yes,ok[2025-07-03 00:59:04][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: server stopped
+🎯 Yes,ok[2025-07-03 00:59:07][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 1 启动了
+🎯 Yes,ok[2025-07-03 00:59:07][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 3 启动了
+🎯 Yes,ok[2025-07-03 00:59:07][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 启动了
+🎯 Yes,ok[2025-07-03 00:59:07][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 2 启动了
+🎯 Yes,ok[2025-07-03 00:59:07][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 4 启动了
+🎯 Yes,ok[2025-07-03 00:59:07][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 5 启动了
+🎯 Yes,ok[2025-07-03 00:59:07][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 6 启动了
+🎯 Yes,ok[2025-07-03 00:59:07][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 7 启动了
+🎯 Yes,ok[2025-07-03 00:59:07][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: server started at port 8888
+🎯 Yes,ok[2025-07-03 00:59:14][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: GET /:8080localhost/index.html HTTP/1.1
+🎯 Yes,ok[2025-07-03 00:59:14][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: IP=127.0.0.1 PORT=39638 的用户执行了  方法;请求路径: 
+🎯 Yes,ok[2025-07-03 00:59:14][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 执行完毕
+🎯 Yes,ok[2025-07-03 00:59:14][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 1 干了一个活
+🎯 Yes,ok[2025-07-03 00:59:14][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: GET /:8080localhost/index.html HTTP/1.1
+🎯 Yes,ok[2025-07-03 00:59:14][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: IP=127.0.0.1 PORT=39638 的用户执行了  方法;请求路径: 
+🎯 Yes,ok[2025-07-03 00:59:14][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 执行完毕
+🎯 Yes,ok[2025-07-03 00:59:14][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 3 干了一个活
+🎯 Yes,ok[2025-07-03 01:00:34][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 退休了
+🎯 Yes,ok[2025-07-03 01:00:34][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 2 退休了
+🎯 Yes,ok[2025-07-03 01:00:34][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 4 退休了
+🎯 Yes,ok[2025-07-03 01:00:34][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 5 退休了
+🎯 Yes,ok[2025-07-03 01:00:34][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 6 退休了
+🎯 Yes,ok[2025-07-03 01:00:34][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 7 退休了
+🎯 Yes,ok[2025-07-03 01:00:34][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 1 退休了
+🎯 Yes,ok[2025-07-03 01:00:34][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 3 退休了
+🎯 Yes,ok[2025-07-03 01:00:34][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: server stopped
+🎯 Yes,ok[2025-07-03 01:00:36][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 1 启动了
+🎯 Yes,ok[2025-07-03 01:00:36][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 启动了
+🎯 Yes,ok[2025-07-03 01:00:36][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 3 启动了
+🎯 Yes,ok[2025-07-03 01:00:36][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 2 启动了
+🎯 Yes,ok[2025-07-03 01:00:36][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 4 启动了
+🎯 Yes,ok[2025-07-03 01:00:36][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 5 启动了
+🎯 Yes,ok[2025-07-03 01:00:36][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 6 启动了
+🎯 Yes,ok[2025-07-03 01:00:36][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: server started at port 8888
+🎯 Yes,ok[2025-07-03 01:00:36][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 7 启动了
+🎯 Yes,ok[2025-07-03 01:00:40][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: GET /:8080localhost/index.html HTTP/1.1
+🎯 Yes,ok[2025-07-03 01:00:40][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: GET /:8080localhost/index.html HTTP/1.1
+User-Agent: Apifox/1.0.0 (https://apifox.com)
+Accept: */*
+Host: localhost:8888
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+
+
+🎯 Yes,ok[2025-07-03 01:00:40][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: IP=127.0.0.1 PORT=55184 的用户执行了  方法;请求路径: 
+🎯 Yes,ok[2025-07-03 01:00:40][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 执行完毕
+🎯 Yes,ok[2025-07-03 01:00:40][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 1 干了一个活
+🎯 Yes,ok[2025-07-03 01:00:40][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: GET /:8080localhost/index.html HTTP/1.1
+🎯 Yes,ok[2025-07-03 01:00:40][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: @�   ���f�ӕ3ost/index.html HTTP/1.1
+User-Agent: Apifox/1.0.0 (https://apifox.com)
+Accept: */*
+Host: localhost:8888
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+
+
+🎯 Yes,ok[2025-07-03 01:00:40][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: IP=127.0.0.1 PORT=55184 的用户执行了  方法;请求路径: 
+🎯 Yes,ok[2025-07-03 01:00:40][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 执行完毕
+🎯 Yes,ok[2025-07-03 01:00:40][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 干了一个活
+🎯 Yes,ok[2025-07-03 01:01:00][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 3 退休了
+🎯 Yes,ok[2025-07-03 01:01:00][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 2 退休了
+🎯 Yes,ok[2025-07-03 01:01:00][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 5 退休了
+🎯 Yes,ok[2025-07-03 01:01:00][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 4 退休了
+🎯 Yes,ok[2025-07-03 01:01:00][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 6 退休了
+🎯 Yes,ok[2025-07-03 01:01:00][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 7 退休了
+🎯 Yes,ok[2025-07-03 01:01:00][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 1 退休了
+🎯 Yes,ok[2025-07-03 01:01:00][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 退休了
+🎯 Yes,ok[2025-07-03 01:01:00][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: server stopped
+🎯 Yes,ok[2025-07-03 01:01:02][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 启动了
+🎯 Yes,ok[2025-07-03 01:01:02][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 1 启动了
+🎯 Yes,ok[2025-07-03 01:01:02][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 2 启动了
+🎯 Yes,ok[2025-07-03 01:01:02][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 3 启动了
+🎯 Yes,ok[2025-07-03 01:01:02][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 4 启动了
+🎯 Yes,ok[2025-07-03 01:01:02][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 5 启动了
+🎯 Yes,ok[2025-07-03 01:01:02][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 6 启动了
+🎯 Yes,ok[2025-07-03 01:01:02][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: server started at port 8888
+🎯 Yes,ok[2025-07-03 01:01:02][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 7 启动了
+🎯 Yes,ok[2025-07-03 01:02:02][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 启动了
+🎯 Yes,ok[2025-07-03 01:02:02][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 1 启动了
+🎯 Yes,ok[2025-07-03 01:02:02][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 3 启动了
+🎯 Yes,ok[2025-07-03 01:02:02][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 2 启动了
+🎯 Yes,ok[2025-07-03 01:02:02][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 4 启动了
+🎯 Yes,ok[2025-07-03 01:02:02][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 5 启动了
+🎯 Yes,ok[2025-07-03 01:02:02][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 6 启动了
+🎯 Yes,ok[2025-07-03 01:02:02][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: server started at port 8888
+🎯 Yes,ok[2025-07-03 01:02:02][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 7 启动了
+🎯 Yes,ok[2025-07-03 01:04:51][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 启动了
+🎯 Yes,ok[2025-07-03 01:04:51][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 1 启动了
+🎯 Yes,ok[2025-07-03 01:04:51][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 2 启动了
+🎯 Yes,ok[2025-07-03 01:04:51][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 3 启动了
+🎯 Yes,ok[2025-07-03 01:04:51][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 4 启动了
+🎯 Yes,ok[2025-07-03 01:04:51][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 5 启动了
+🎯 Yes,ok[2025-07-03 01:04:51][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 6 启动了
+🎯 Yes,ok[2025-07-03 01:04:51][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: server started at port 8888
+🎯 Yes,ok[2025-07-03 01:04:51][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 7 启动了
+🎯 Yes,ok[2025-07-03 01:06:59][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: GET /index.html HTTP/1.1
+🎯 Yes,ok[2025-07-03 01:10:29][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 启动了
+🎯 Yes,ok[2025-07-03 01:10:29][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 1 启动了
+🎯 Yes,ok[2025-07-03 01:10:29][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 3 启动了
+🎯 Yes,ok[2025-07-03 01:10:29][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 2 启动了
+🎯 Yes,ok[2025-07-03 01:10:29][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 4 启动了
+🎯 Yes,ok[2025-07-03 01:10:29][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 5 启动了
+🎯 Yes,ok[2025-07-03 01:10:29][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 6 启动了
+🎯 Yes,ok[2025-07-03 01:10:29][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: server started at port 8888
+🎯 Yes,ok[2025-07-03 01:10:29][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 7 启动了
+🎯 Yes,ok[2025-07-03 01:10:32][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: GET /index.html HTTP/1.1
+🎯 Yes,ok[2025-07-03 01:10:32][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: GET /index.html HTTP/1.1
+User-Agent: Apifox/1.0.0 (https://apifox.com)
+Accept: */*
+Host: localhost:8888
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+
+
+🎯 Yes,ok[2025-07-03 01:10:32][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: IP=127.0.0.1 PORT=53962 的用户执行了 GET 方法;请求路径: /index.html
+🎯 Yes,ok[2025-07-03 01:10:32][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 执行完毕
+🎯 Yes,ok[2025-07-03 01:10:32][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 干了一个活
+🎯 Yes,ok[2025-07-03 01:12:26][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 1 退休了
+🎯 Yes,ok[2025-07-03 01:12:26][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 3 退休了
+🎯 Yes,ok[2025-07-03 01:12:26][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 2 退休了
+🎯 Yes,ok[2025-07-03 01:12:26][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 4 退休了
+🎯 Yes,ok[2025-07-03 01:12:26][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 5 退休了
+🎯 Yes,ok[2025-07-03 01:12:26][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 6 退休了
+🎯 Yes,ok[2025-07-03 01:12:26][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 7 退休了
+🎯 Yes,ok[2025-07-03 01:12:26][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 退休了
+🎯 Yes,ok[2025-07-03 01:12:26][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: server stopped
+🎯 Yes,ok[2025-07-03 01:12:29][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 启动了
+🎯 Yes,ok[2025-07-03 01:12:29][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 3 启动了
+🎯 Yes,ok[2025-07-03 01:12:29][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 1 启动了
+🎯 Yes,ok[2025-07-03 01:12:29][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: server started at port 8888
+🎯 Yes,ok[2025-07-03 01:12:29][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 7 启动了
+🎯 Yes,ok[2025-07-03 01:12:29][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 4 启动了
+🎯 Yes,ok[2025-07-03 01:12:29][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 2 启动了
+🎯 Yes,ok[2025-07-03 01:12:29][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 6 启动了
+🎯 Yes,ok[2025-07-03 01:12:29][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 5 启动了
+🎯 Yes,ok[2025-07-03 01:12:34][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: GET /index.html HTTP/1.1
+User-Agent: Apifox/1.0.0 (https://apifox.com)
+Accept: */*
+Host: localhost:8888
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+
+
+🎯 Yes,ok[2025-07-03 01:12:34][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: IP=127.0.0.1 PORT=60698 的用户执行了 GET 方法;请求路径: /index.html
+🎯 Yes,ok[2025-07-03 01:12:34][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: HTTP/1.1 404 Not Found
+Content-Type: text/html
+Content-Length: 49
+Connection: close
+
+<html><body><h1>404 Not Found</h1></body></html>
+🎯 Yes,ok[2025-07-03 01:12:34][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 执行完毕
+🎯 Yes,ok[2025-07-03 01:12:34][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 干了一个活
+🎯 Yes,ok[2025-07-03 01:13:46][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 3 退休了
+🎯 Yes,ok[2025-07-03 01:13:46][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 5 退休了
+🎯 Yes,ok[2025-07-03 01:13:46][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 7 退休了
+🎯 Yes,ok[2025-07-03 01:13:46][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 4 退休了
+🎯 Yes,ok[2025-07-03 01:13:46][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 2 退休了
+🎯 Yes,ok[2025-07-03 01:13:46][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 6 退休了
+🎯 Yes,ok[2025-07-03 01:13:46][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 1 退休了
+🎯 Yes,ok[2025-07-03 01:13:46][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 退休了
+🎯 Yes,ok[2025-07-03 01:13:46][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: server stopped
+🎯 Yes,ok[2025-07-03 01:13:50][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 启动了
+🎯 Yes,ok[2025-07-03 01:13:50][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 1 启动了
+🎯 Yes,ok[2025-07-03 01:13:50][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 2 启动了
+🎯 Yes,ok[2025-07-03 01:13:50][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 3 启动了
+🎯 Yes,ok[2025-07-03 01:13:50][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 4 启动了
+🎯 Yes,ok[2025-07-03 01:13:50][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 5 启动了
+🎯 Yes,ok[2025-07-03 01:13:50][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 6 启动了
+🎯 Yes,ok[2025-07-03 01:13:50][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: server started at port 8888
+🎯 Yes,ok[2025-07-03 01:13:50][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 7 启动了
+🎯 Yes,ok[2025-07-03 01:14:03][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: GET /index.html HTTP/1.1
+User-Agent: Apifox/1.0.0 (https://apifox.com)
+Accept: */*
+Host: localhost:8888
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+
+
+🎯 Yes,ok[2025-07-03 01:14:03][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: IP=127.0.0.1 PORT=48432 的用户执行了 GET 方法;请求路径: /index.html
+🎯 Yes,ok[2025-07-03 01:14:20][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: ./index.html
+🎯 Yes,ok[2025-07-03 01:15:34][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: HTTP/1.1 404 Not Found
+Content-Type: text/html
+Content-Length: 49
+Connection: close
+
+<html><body><h1>404 Not Found</h1></body></html>
+🎯 Yes,ok[2025-07-03 01:18:41][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 0 启动了
+🎯 Yes,ok[2025-07-03 01:18:41][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 1 启动了
+🎯 Yes,ok[2025-07-03 01:18:41][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 2 启动了
+🎯 Yes,ok[2025-07-03 01:18:41][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 3 启动了
+🎯 Yes,ok[2025-07-03 01:18:41][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 4 启动了
+🎯 Yes,ok[2025-07-03 01:18:41][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 5 启动了
+🎯 Yes,ok[2025-07-03 01:18:41][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 6 启动了
+🎯 Yes,ok[2025-07-03 01:18:41][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: 线程 7 启动了
+🎯 Yes,ok[2025-07-03 01:18:41][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: server started at port 8888
+🎯 Yes,ok[2025-07-03 01:19:21][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: GET /index.html HTTP/1.1
+User-Agent: Apifox/1.0.0 (https://apifox.com)
+Accept: */*
+Host: localhost:8888
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+
+
+🎯 Yes,ok[2025-07-03 01:19:21][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: IP=127.0.0.1 PORT=58490 的用户执行了 GET 方法;请求路径: /index.html
+🎯 Yes,ok[2025-07-03 01:19:29][/home/yuan/workspace/clion/my-web-server/src/MyLog.cpp:30]: ./index.html

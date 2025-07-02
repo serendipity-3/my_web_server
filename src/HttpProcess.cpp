@@ -72,12 +72,20 @@ void handle_client_read(int client_fd) {
         std::map<std::string, std::string> request_map;
         // 解析成 map
         request_str_to_map(connection.read_buffer, request_map);
+
+        ok(connection.read_buffer, running_log_type);
+
         // 打印日志
-        std::stringstream oss;
-        oss << "IP=" << connection.ip << " PORT=" << connection.port << "的用户执行了 "
+        std::stringstream oss1;
+        oss1 << "IP=" << connection.ip << " PORT=" << connection.port << " 的用户执行了 "
                 << request_map["Method"] << " 方法;" << "请求路径: " << request_map["Path"];
 
-        ok(oss.str(), running_log_type);
+
+        for (const auto &pair : request_map) {
+            std::cout << pair.first << ": " << pair.second << std::endl;
+        }
+
+        ok(oss1.str(), running_log_type);
 
         process_http(request_map, connection);
 
@@ -157,16 +165,16 @@ int request_str_to_map(const std::string &request_str, std::map<std::string, std
     // 读请求行，根据 \r\n 和空格分割成[方法,路径,版本]分别放到 map 里
     std::string line;
     std::istringstream main_part_stream(main_part);
-    std::istringstream line_stream(line);
-
     std::getline(main_part_stream, line);
     if (!line.empty() && line.back() == '\r') {
         line.pop_back();
     }
 
     // 读请求头，根据 \r\n 和 : 分割成[请求头名, 请求头值]当 key-val 放到 map 里
+    std::istringstream line_stream(line);
     std::string method, path, version;
     line_stream >> method >> path >> version;
+
 
     request_map["Method"] = std::move(method);
     request_map["Path"] = std::move(path);
@@ -238,7 +246,7 @@ int process_http_get(std::map<std::string, std::string> &request_map, Connection
 
     std::string response;
     std::string file_content;
-
+    ok(path, running_log_type);
     if (file_exists(path)) {
         // 成了
         file_content = get_file_content(path);
@@ -258,7 +266,7 @@ int process_http_get(std::map<std::string, std::string> &request_map, Connection
                 .append("\r\n")
                 .append("<html><body><h1>404 Not Found</h1></body></html>");
     }
-
+    ok(response, running_log_type);
     return send_all(response, connection);
 }
 
@@ -483,9 +491,13 @@ int process_http_other(std::map<std::string, std::string> &request_map, Connecti
     return send_all(response, connection);
 }
 
-int file_exists(std::string &filename) {
+bool file_exists(std::string &filename) {
     struct stat file_stat{};
-    return stat(filename.c_str(), &file_stat) == 0;
+    if (stat(filename.c_str(), &file_stat) == 0) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 
