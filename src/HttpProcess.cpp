@@ -249,22 +249,21 @@ int process_http_get(std::map<std::string, std::string> &request_map, Connection
                 .append("Connection: close\r\n")
                 .append("\r\n")
                 .append(file_content);
-
     } else {
         // 没有
         response.append("HTTP/1.1 404 Not Found\r\n")
-               .append("Content-Type: text/html\r\n")
-               .append("Content-Length: 49\r\n")
-               .append("Connection: close\r\n")
-               .append("\r\n")
-               .append("<html><body><h1>404 Not Found</h1></body></html>");
+                .append("Content-Type: text/html\r\n")
+                .append("Content-Length: 49\r\n")
+                .append("Connection: close\r\n")
+                .append("\r\n")
+                .append("<html><body><h1>404 Not Found</h1></body></html>");
     }
 
     return send_all(response, connection);
 }
 
 int process_http_post(std::map<std::string, std::string> &request_map, Connection &connection) {
-    // 数据提交到哪里？默认 path 是一个文件，不是一个目录
+    // 数据提交到哪里？默认 path 是一个文件，不是一个目录，不是 JSON 格式
     std::string path = "." + request_map["Path"];
 
     // 向 path 里放数据
@@ -310,7 +309,7 @@ int process_http_delete(std::map<std::string, std::string> &request_map, Connect
     bool success = true; // 数据删掉了
     std::string response;
 
-    // TODO: 应该不会有 ../ 这种路径吧
+    // TODO: 应该不会有 ../ 这种路径吧，有的话就完蛋了
     if (file_exists(path)) {
         // 删除文件
         if (std::remove(path.c_str()) != 0) {
@@ -347,12 +346,54 @@ int process_http_delete(std::map<std::string, std::string> &request_map, Connect
 
 // 更新整个资源
 int process_http_put(std::map<std::string, std::string> &request_map, Connection &connection) {
-    // TODO
+    std::string path = "." + request_map["Path"];
+    //
+    std::string body = request_map["Body"];
+    std::string response;
+
+    if (file_exists(path)) {
+        // 更新文件
+        int updated = 0;
+
+        if (updated == 0) {
+            // 成了
+            response.append("HTTP/1.1 200 OK\r\n")
+                    .append("Content-Type: text/html\r\n")
+                    .append("Content-Length: 0\r\n")
+                    .append("Connection: close\r\n")
+                    .append("\r\n");
+        } else {
+            // 未知错误
+            response.append("HTTP/1.1 500 Internal Server Error\r\n")
+                    .append("Content-Type: text/plain\r\n")
+                    .append("Content-Length: 0\r\n")
+                    .append("Connection: close\r\n")
+                    .append("\r\n");
+        }
+    } else {
+        // 没有
+        response.append("HTTP/1.1 404 Not Found\r\n")
+                .append("Content-Type: text/plain\r\n")
+                .append("Content-Length: 0\r\n")
+                .append("Connection: close\r\n")
+                .append("\r\n");
+    }
+
+    return send_all(response, connection);
 }
 
 // 有哪些支持的方法
 int process_http_options(std::map<std::string, std::string> &request_map, Connection &connection) {
-    // TODO
+    std::string response;
+
+    response.append("HTTP/1.1 204 No Content\r\n")
+            .append("Allow: GET, POST, HEAD, OPTIONS\r\n")
+            .append("Content-Length: 0\r\n")
+            .append("Connection: close\r\n")
+            .append("\r\n");
+
+
+    return send_all(response, connection);
 }
 
 // 只返回头部，不返回内容体
@@ -364,14 +405,13 @@ int process_http_head(std::map<std::string, std::string> &request_map, Connectio
     if (file_exists(path)) {
         // 文件多大
         int64_t file_size = get_file_size(path);
-        if ( file_size >= 0) {
+        if (file_size >= 0) {
             // 成了
             response.append("HTTP/1.1 200 OK\r\n")
                     .append("Content-Type: text/html\r\n")
                     .append("Content-Length: " + std::to_string(file_size) + "\r\n")
                     .append("Connection: close\r\n")
                     .append("\r\n");
-
         } else {
             // 未知错误
             response.append("HTTP/1.1 500 Internal Server Error\r\n")
@@ -380,14 +420,13 @@ int process_http_head(std::map<std::string, std::string> &request_map, Connectio
                     .append("Connection: close\r\n")
                     .append("\r\n");
         }
-
     } else {
         // 没有
         response.append("HTTP/1.1 404 Not Found\r\n")
-               .append("Content-Type: text/plain\r\n")
-               .append("Content-Length: 0\r\n")
-               .append("Connection: close\r\n")
-               .append("\r\n");
+                .append("Content-Type: text/plain\r\n")
+                .append("Content-Length: 0\r\n")
+                .append("Connection: close\r\n")
+                .append("\r\n");
     }
 
     return send_all(response, connection);
@@ -395,12 +434,53 @@ int process_http_head(std::map<std::string, std::string> &request_map, Connectio
 
 // 更新资源的一部分
 int process_http_patch(std::map<std::string, std::string> &request_map, Connection &connection) {
-    // TODO
+    std::string path = "." + request_map["Path"];
+    std::string body = request_map["Body"];
+    std::string response;
+
+    if (file_exists(path)) {
+        // 更新文件
+        int updated = 0;
+
+        if (updated == 0) {
+            // 成了
+            response.append("HTTP/1.1 200 OK\r\n")
+                    .append("Content-Type: text/plain\r\n")
+                    .append("Content-Length: 0\r\n")
+                    .append("Connection: close\r\n")
+                    .append("\r\n");
+        } else {
+            // 未知错误
+            response.append("HTTP/1.1 500 Internal Server Error\r\n")
+                    .append("Content-Type: text/plain\r\n")
+                    .append("Content-Length: 0\r\n")
+                    .append("Connection: close\r\n")
+                    .append("\r\n");
+        }
+    } else {
+        // 没有
+        response.append("HTTP/1.1 404 Not Found\r\n")
+                .append("Content-Type: text/plain\r\n")
+                .append("Content-Length: 0\r\n")
+                .append("Connection: close\r\n")
+                .append("\r\n");
+    }
+
+    return send_all(response, connection);
 }
 
 // 别的
 int process_http_other(std::map<std::string, std::string> &request_map, Connection &connection) {
-    // TODO
+    std::string response;
+
+    response.append("HTTP/1.1 405 Method Not Allowed\r\n")
+            .append("Allow: GET, POST, DELETE, HEAD, OPTIONS\r\n")
+            .append("Content-Type: text/plain\r\n")
+            .append("Content-Length: 0\r\n")
+            .append("Connection: close\r\n")
+            .append("\r\n");
+
+    return send_all(response, connection);
 }
 
 int file_exists(std::string &filename) {

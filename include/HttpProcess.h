@@ -14,9 +14,11 @@
 #include <unordered_map>
 #include <cstring>
 #include <sys/stat.h>
+#include <nlohmann/json.hpp>
 
-#include "HttpProcess.h"
-#include "HttpProcess.h"
+using json = nlohmann::json;
+
+
 
 struct Connection;
 
