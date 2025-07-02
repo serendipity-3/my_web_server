@@ -4,6 +4,8 @@
 
 #include "HttpProcess.h"
 
+constexpr size_t MAX_HEADER_SIZE = 8 * 1024; // 8KB 请求头限制
+constexpr size_t MAX_BODY_SIZE = 5 * 1024 * 1024; // 5MB 请求体限制
 
 // 线程池里的线程要干的活
 void handle_client_read(int client_fd) {
@@ -70,10 +72,18 @@ void handle_client_read(int client_fd) {
         std::map<std::string, std::string> request_map;
         // 解析成 map
         request_str_to_map(connection.read_buffer, request_map);
+        // 打印日志
+        std::stringstream oss;
+        oss << "IP=" << connection.ip << " PORT=" << connection.port << "的用户执行了 "
+                << request_map["Method"] << " 方法;" << "请求路径: " << request_map["Path"];
+
+        ok(oss.str(), running_log_type);
 
         process_http(request_map, connection);
 
-        // 放到全局变量 close_queue 里，让主线程在处理完所有事件后，关闭客户端 fd
+        ok("执行完毕", running_log_type);
+
+        // 放到全局变量 close_queue 里，让主线程在处理完所有事件后，关闭客户端 fd 和相关的 epoll, 全局连接
         defer_close_fd(client_fd);
     }
     // 不完整的请求而且内核没数据了，所以等下一次 epoll 通知吧
@@ -188,8 +198,8 @@ int request_str_to_map(const std::string &request_str, std::map<std::string, std
     return 0;
 }
 
-
 int process_http(std::map<std::string, std::string> &request_map, Connection &connection) {
+    // 拿到方法
     auto it = request_map.find("Method");
     if (it == request_map.end()) {
         no("没有 HTTP 请求方法", running_log_type);
@@ -198,6 +208,7 @@ int process_http(std::map<std::string, std::string> &request_map, Connection &co
     std::string method = it->second;
     int success = 0;
 
+    // 是哪个方法，处理
     if (method == "GET") {
         success = process_http_get(request_map, connection);
     } else if (method == "POST") {
@@ -209,50 +220,236 @@ int process_http(std::map<std::string, std::string> &request_map, Connection &co
         // 处理 PUT 请求
         success = process_http_put(request_map, connection);
     } else if (method == "DELETE") {
-=
         success = process_http_delete(request_map, connection);
     } else if (method == "OPTIONS") {
-=
         success = process_http_options(request_map, connection);
     } else if (method == "PATCH") {
-=
         success = process_http_patch(request_map, connection);
     } else {
         success = process_http_other(request_map, connection);
     }
 
-
+    return success;
 }
 
+// 只支持 HTML 文本文件
 int process_http_get(std::map<std::string, std::string> &request_map, Connection &connection) {
+    std::string path = "." + request_map["Path"];
 
+    std::string response;
+    std::string file_content;
+
+    if (file_exists(path)) {
+        // 成了
+        file_content = get_file_content(path);
+
+        response.append("HTTP/1.1 200 OK\r\n")
+                .append("Content-Type: text/html\r\n")
+                .append("Content-Length: " + std::to_string(file_content.size()) + "\r\n")
+                .append("Connection: close\r\n")
+                .append("\r\n")
+                .append(file_content);
+
+    } else {
+        // 没有
+        response.append("HTTP/1.1 404 Not Found\r\n")
+               .append("Content-Type: text/html\r\n")
+               .append("Content-Length: 49\r\n")
+               .append("Connection: close\r\n")
+               .append("\r\n")
+               .append("<html><body><h1>404 Not Found</h1></body></html>");
+    }
+
+    return send_all(response, connection);
 }
 
 int process_http_post(std::map<std::string, std::string> &request_map, Connection &connection) {
-    // TODO
+    // 数据提交到哪里？默认 path 是一个文件，不是一个目录
+    std::string path = "." + request_map["Path"];
+
+    // 向 path 里放数据
+    bool success = true; // 数据存到文件里了
+    std::ofstream output_file(path, std::ios::out | std::ios::binary | std::ios::trunc);
+    if (output_file.is_open()) {
+        std::string body = request_map["Body"];
+        // TODO: 这里若是两个客户端写到同一个地方，多线程会错乱的，所以要加个确定用户身份
+        output_file.write(body.c_str(), body.size());
+        output_file.close();
+    } else {
+        no("文件打不开, 存不了数据", running_log_type);
+        success = false;
+    }
+
+    // 告诉客户端完事了
+    std::string response;
+    if (success) {
+        // 成了
+        response.append("HTTP/1.1 200 OK\r\n")
+                .append("Content-Type: text/plain\r\n")
+                .append("Content-Length: 0\r\n")
+                .append("Connection: close\r\n")
+                .append("\r\n");
+    } else {
+        // 没成
+        response.append("HTTP/1.1 500 Internal Server Error\r\n")
+                .append("Content-Type: text/plain\r\n")
+                .append("Content-Length: 0\r\n")
+                .append("Connection: close\r\n")
+                .append("\r\n");
+    }
+
+    return send_all(response, connection);
 }
 
+// 删掉某个资源
 int process_http_delete(std::map<std::string, std::string> &request_map, Connection &connection) {
-    // TODO
+    // 删哪里的文件？默认 path 是一个文件，不是一个目录
+    std::string path = "." + request_map["Path"];
+
+    // 准备删除
+    bool success = true; // 数据删掉了
+    std::string response;
+
+    // TODO: 应该不会有 ../ 这种路径吧
+    if (file_exists(path)) {
+        // 删除文件
+        if (std::remove(path.c_str()) != 0) {
+            success = false;
+        }
+
+        // 返回请求
+        if (success) {
+            // 成了
+            response.append("HTTP/1.1 200 OK\r\n")
+                    .append("Content-Type: text/plain\r\n")
+                    .append("Content-Length: 0\r\n")
+                    .append("Connection: close\r\n")
+                    .append("\r\n");
+        } else {
+            // 没成
+            response.append("HTTP/1.1 500 Internal Server Error\r\n")
+                    .append("Content-Type: text/plain\r\n")
+                    .append("Content-Length: 0\r\n")
+                    .append("Connection: close\r\n")
+                    .append("\r\n");
+        }
+    } else {
+        // 没有
+        response.append("HTTP/1.1 404 Not Found\r\n")
+                .append("Content-Type: text/plain\r\n")
+                .append("Content-Length: 0\r\n")
+                .append("Connection: close\r\n")
+                .append("\r\n");
+    }
+
+    return send_all(response, connection);
 }
 
+// 更新整个资源
 int process_http_put(std::map<std::string, std::string> &request_map, Connection &connection) {
     // TODO
 }
 
+// 有哪些支持的方法
 int process_http_options(std::map<std::string, std::string> &request_map, Connection &connection) {
     // TODO
 }
 
+// 只返回头部，不返回内容体
 int process_http_head(std::map<std::string, std::string> &request_map, Connection &connection) {
-    // TODO
+    std::string path = "." + request_map["Path"];
+
+    std::string response;
+
+    if (file_exists(path)) {
+        // 文件多大
+        int64_t file_size = get_file_size(path);
+        if ( file_size >= 0) {
+            // 成了
+            response.append("HTTP/1.1 200 OK\r\n")
+                    .append("Content-Type: text/html\r\n")
+                    .append("Content-Length: " + std::to_string(file_size) + "\r\n")
+                    .append("Connection: close\r\n")
+                    .append("\r\n");
+
+        } else {
+            // 未知错误
+            response.append("HTTP/1.1 500 Internal Server Error\r\n")
+                    .append("Content-Type: text/plain\r\n")
+                    .append("Content-Length: 0\r\n")
+                    .append("Connection: close\r\n")
+                    .append("\r\n");
+        }
+
+    } else {
+        // 没有
+        response.append("HTTP/1.1 404 Not Found\r\n")
+               .append("Content-Type: text/plain\r\n")
+               .append("Content-Length: 0\r\n")
+               .append("Connection: close\r\n")
+               .append("\r\n");
+    }
+
+    return send_all(response, connection);
 }
 
-
+// 更新资源的一部分
 int process_http_patch(std::map<std::string, std::string> &request_map, Connection &connection) {
     // TODO
 }
 
+// 别的
 int process_http_other(std::map<std::string, std::string> &request_map, Connection &connection) {
+    // TODO
+}
 
+int file_exists(std::string &filename) {
+    struct stat file_stat{};
+    return stat(filename.c_str(), &file_stat) == 0;
+}
+
+
+std::string get_file_content(const std::string &filename) {
+    std::ifstream ifs(filename, std::ifstream::binary | std::ifstream::in);
+    if (!ifs.is_open()) {
+        no("文件没打开", running_log_type);
+        return "";
+    }
+
+    std::ostringstream temp_content;
+    temp_content << ifs.rdbuf();
+
+    return temp_content.str();
+}
+
+int send_all(const std::string &response, Connection &connection) {
+    int fd = connection.client_fd;
+    size_t send_sum = 0;
+    size_t all_size = response.size();
+    const char *buf = response.c_str();
+
+    while (send_sum < all_size) {
+        ssize_t send_part = send(fd, buf + send_sum, all_size - send_sum, 0);
+        if (send_part > 0) {
+            send_sum += send_part;
+        } else if (send_part == -1 && (errno == EAGAIN || errno == EWOULDBLOCK)) {
+            // TODO: 可以在这里改为 epoll 写事件，在管理连接的全局变量里放上已经写的数据缓存，等下一次 epoll 通知继续写。
+            // 缓冲区满了时，避免 CPU 空转太过
+            usleep(1000);
+        } else {
+            no("写入出错了", running_log_type);
+            return -1;
+        }
+    }
+
+    return 0;
+}
+
+int64_t get_file_size(std::string &filename) {
+    struct stat file_stat{};
+
+    if (stat(filename.c_str(), &file_stat) < 0) {
+        return -1;
+    }
+    return file_stat.st_size;
 }

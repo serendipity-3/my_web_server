@@ -13,6 +13,7 @@
 #include <unistd.h>
 #include <unordered_map>
 #include <cstring>
+#include <sys/stat.h>
 
 #include "HttpProcess.h"
 #include "HttpProcess.h"
@@ -42,9 +43,6 @@ enum class HttpParseResult {
     MalformedHeader     // Content-Length 解析失败
 };
 
-constexpr size_t MAX_HEADER_SIZE = 8 * 1024;                // 8KB 请求头限制
-constexpr size_t MAX_BODY_SIZE = 5 * 1024 * 1024;        // 5MB 请求体限制
-
 
 // 从客户端 fd 里接收 HTTP 请求数据，并处理数据，返回给客户端数据
 void handle_client_read(int client_fd);
@@ -73,7 +71,11 @@ int process_http_other(std::map<std::string, std::string> &request_map, Connecti
 
 // 文件老哥在不
 int file_exists(std::string &filename);
+// 文件多大了
+int64_t get_file_size(std::string &filename);
 // 拿所有文件内容转字符串
-std::string get_file_content(std::string &content, std::string &filename);
+std::string get_file_content(const std::string &filename);
+// 发文件数据到客户端
+int send_all(const std::string &response, Connection &connection);
 
 #endif //HTTP_H

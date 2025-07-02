@@ -16,10 +16,10 @@ std::mutex cout_mutex;
 
 std::string curr_time() {
     std::time_t t = std::time(nullptr);
-    std::tm tm = *std::localtime(&t);
+    const std::tm *tm = std::localtime(&t);
 
     std::ostringstream oss;
-    oss << std::put_time(&tm, "%Y-%m-%d %H:%M:%S");
+    oss << std::put_time(tm, "%Y-%m-%d %H:%M:%S");
     return oss.str();
 }
 
