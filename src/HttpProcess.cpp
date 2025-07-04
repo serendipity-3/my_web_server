@@ -271,38 +271,77 @@ int process_http_get(std::map<std::string, std::string> &request_map, Connection
 }
 
 int process_http_post(std::map<std::string, std::string> &request_map, Connection &connection) {
-    // 数据提交到哪里？默认 path 是一个文件，不是一个目录，不是 JSON 格式
+    // 数据提交到哪里？默认 path 是一个目录，提交的是 JSON 格式数据
     std::string path = "." + request_map["Path"];
-
-    // 向 path 里放数据
-    bool success = true; // 数据存到文件里了
-    std::ofstream output_file(path, std::ios::out | std::ios::binary | std::ios::trunc);
-    if (output_file.is_open()) {
-        std::string body = request_map["Body"];
-        // TODO: 这里若是两个客户端写到同一个地方，多线程会错乱的，所以要加个确定用户身份
-        output_file.write(body.c_str(), body.size());
-        output_file.close();
-    } else {
-        no("文件打不开, 存不了数据", running_log_type);
-        success = false;
-    }
-
-    // 告诉客户端完事了
+    json str_to_json = json::parse(request_map["Body"]);
     std::string response;
-    if (success) {
-        // 成了
-        response.append("HTTP/1.1 200 OK\r\n")
-                .append("Content-Type: text/plain\r\n")
-                .append("Content-Length: 0\r\n")
-                .append("Connection: close\r\n")
-                .append("\r\n");
+    std::string json_to_str;
+
+    // TODO: 用全局 hashmap 存所有支持的路径 -> 处理的方法
+    // 目前就这一个支持的路径吧
+    if (path == "./html") {
+        // 向 path 里放数据
+        bool success = true; // 数据存到文件里了
+        std::string file_name = generate_filename_by_time("file", "html");
+        std::ofstream output_file(path + file_name, std::ios::out | std::ios::binary | std::ios::trunc);
+
+
+        if (output_file.is_open()) {
+            // 拿到 JSON 里的 file 的内容，file 里只应该有文件的原始数据，不要文件元信息
+            std::string file_content = str_to_json["file"];
+
+            // TODO: 这里若是两个客户端写到同一个地方，多线程会错乱的，所以要加个确定用户身份
+            output_file.write(file_content.c_str(), file_content.size());
+            if (output_file.fail()) {
+                no("文件打开了, 却存不了数据", running_log_type);
+                success = false;
+            }
+
+            output_file.close();
+        } else {
+            no("文件打不开", running_log_type);
+            success = false;
+        }
+
+        // 告诉客户端完事了
+
+        if (success) {
+            json content;
+            content["msg"] = "提交成功了";
+            content["code"] = 200;
+
+            json data;
+            data["filename"] = file_name;
+            data["url"] = path + "/" + file_name;
+            content["data"] = data;
+
+            std::string str_content = content.dump();
+            // 成了
+            response.append("HTTP/1.1 200 OK\r\n")
+                    .append("Content-Type: text/plain\r\n")
+                    .append("Content-Length: 0\r\n")
+                    .append("Connection: close\r\n")
+                    .append("\r\n");
+        } else {
+            // 没成
+            response.append("HTTP/1.1 500 Internal Server Error\r\n")
+                    .append("Content-Type: text/plain\r\n")
+                    .append("Content-Length: 0\r\n")
+                    .append("Connection: close\r\n")
+                    .append("\r\n");
+        }
     } else {
-        // 没成
-        response.append("HTTP/1.1 500 Internal Server Error\r\n")
-                .append("Content-Type: text/plain\r\n")
-                .append("Content-Length: 0\r\n")
+        json content;
+        content["msg"] = "没有这个路径，这条路径以后再来探索吧";
+        content["code"] = 404;
+        std::string str_content = content.dump();
+
+        response.append("HTTP/1.1 404 Not Found\r\n")
+                .append("Content-Type: application/json\r\n")
+                .append("Content-Length: " + std::to_string(str_content.size()) + "\r\n")
                 .append("Connection: close\r\n")
-                .append("\r\n");
+                .append("\r\n")
+                .append(str_content);
     }
 
     return send_all(response, connection);
@@ -491,28 +530,7 @@ int process_http_other(std::map<std::string, std::string> &request_map, Connecti
     return send_all(response, connection);
 }
 
-bool file_exists(std::string &filename) {
-    struct stat file_stat{};
-    if (stat(filename.c_str(), &file_stat) == 0) {
-        return true;
-    } else {
-        return false;
-    }
-}
 
-
-std::string get_file_content(const std::string &filename) {
-    std::ifstream ifs(filename, std::ifstream::binary | std::ifstream::in);
-    if (!ifs.is_open()) {
-        no("文件没打开", running_log_type);
-        return "";
-    }
-
-    std::ostringstream temp_content;
-    temp_content << ifs.rdbuf();
-
-    return temp_content.str();
-}
 
 int send_all(const std::string &response, Connection &connection) {
     int fd = connection.client_fd;

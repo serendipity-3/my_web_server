@@ -15,6 +15,7 @@ find_package(nlohmann_json CONFIG REQUIRED)
 set(SOURCES
         src/main.cpp
         src/HttpProcess.cpp
+        src/FileProcess.cpp
         src/ThreadPool.cpp
         src/MyLog.cpp
 )
@@ -31,6 +32,12 @@ target_include_directories(MyLogTest PRIVATE ${CMAKE_SOURCE_DIR}/include)
 add_executable(ThreadPoolTest ${THREADPOOL})
 target_include_directories(ThreadPoolTest PRIVATE ${CMAKE_SOURCE_DIR}/include)
 
+add_executable(FileTest test/FileTest.cpp src/FileProcess.cpp src/MyLog.cpp)
+target_include_directories(FileTest PRIVATE ${CMAKE_SOURCE_DIR}/include)
+
+add_executable(JsonTest test/JsonTest.cpp)
+
+# 网络服务器
 add_executable(WebServer ${SOURCES})
 target_include_directories(WebServer PRIVATE ${CMAKE_SOURCE_DIR}/include)
 
@@ -39,3 +46,4 @@ target_include_directories(WebServer PRIVATE ${CMAKE_SOURCE_DIR}/include)
 target_link_libraries(WebServer PRIVATE OpenSSL::SSL OpenSSL::Crypto)
 # 连接 json 库
 target_link_libraries(WebServer PRIVATE nlohmann_json::nlohmann_json)
+target_link_libraries(JsonTest PRIVATE nlohmann_json::nlohmann_json)

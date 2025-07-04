@@ -9,15 +9,16 @@
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
-#include "MyLog.h"
 #include <unistd.h>
 #include <unordered_map>
 #include <cstring>
 #include <sys/stat.h>
 #include <nlohmann/json.hpp>
 
-using json = nlohmann::json;
+#include "MyLog.h"
+#include "FileProcess.h"
 
+using json = nlohmann::json;
 
 
 struct Connection;
@@ -68,12 +69,7 @@ int process_http_head(std::map<std::string, std::string> &request, Connection &c
 int process_http_patch(std::map<std::string, std::string> &request, Connection &connection);
 int process_http_other(std::map<std::string, std::string> &request_map, Connection &connection);
 
-// 文件老哥在不
-bool file_exists(std::string &filename);
-// 文件多大了
-int64_t get_file_size(std::string &filename);
-// 拿所有文件内容转字符串
-std::string get_file_content(const std::string &filename);
+
 // 发文件数据到客户端
 int send_all(const std::string &response, Connection &connection);
 
