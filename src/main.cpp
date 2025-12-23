@@ -9,6 +9,8 @@
 #include<sys/types.h>
 #include <unistd.h>
 #include <unordered_set>
+#include <openssl/ssl.h>
+#include <openssl/err.h>
 
 #include "HttpProcess.h"
 #include "MyLog.h"
@@ -22,8 +24,10 @@ extern LOG_TYPE start_log_type;
 bool epoll_loop_stop = false;
 // epoll 文件描述符
 int epoll_fd;
+// OpenSSL 让我放这个结构体
+SSL_CTX* global_ssl_ctx = nullptr;
 
-// 为了防止[子线程刚关闭 fd 主线程就 accept 了相同的 fd]的情况，用一个队列存子线程要关的所有 fd，统一在主线程中关闭。
+// 为了防止[子线程刚关闭 fd 主线程就 accept 了相同的 fd]情况，用一个队列存子线程要关的所有 fd，统一在主线程中关闭。
 std::mutex close_queue_mutex;
 std::queue<int> close_queue;
 
@@ -130,12 +134,12 @@ void handle_stop(int sig) {
 
 int main(int argc, char* argv[]) {
 
-    int port = 8888;
-    int MAX_EVENTS = 1024;
+    const int port = 8888;
+    const int MAX_EVENTS = 1024;
 
-    // 注册信号通知关闭
-    signal(SIGINT, handle_stop);
-    signal(SIGTERM, handle_stop);
+    // SSL_library_init();                // 初始化 TLS 加密算法，静态全局
+    // SSL_load_error_strings();         // 错误描述注册，静态全局
+    // OpenSSL_add_all_algorithms();     // 加载所有加密算法，静态全局
 
     // 初始化 socket
     const int socket_fd = init_socket(port);
@@ -146,11 +150,11 @@ int main(int argc, char* argv[]) {
         return -1;
     }
 
-    // socket 事件初始化
+    // 初始化一个socket 事件，放到在内核中的 epoll 红黑树数据结构里
     epoll_event socket_event{};
     socket_event.events = EPOLLIN | EPOLLET;
     socket_event.data.fd = socket_fd;
-
+    // 放到 epoll 里
     if (epoll_ctl(epoll_fd, EPOLL_CTL_ADD, socket_fd, &socket_event) < 0) {
         no("epoll_ctl ADD socket_fd failed", LOG_TYPE::CONSOLE);
         close(socket_fd);
@@ -160,20 +164,26 @@ int main(int argc, char* argv[]) {
 
     // 放准备好的事件
     epoll_event events[MAX_EVENTS];
-    // 初始化线程池
+    // 来一个能处理读写事件的线程池
     ThreadPool thread_pool{};
+
+    // 注册信号，用来关闭 server 进程
+    signal(SIGINT, handle_stop);
+    signal(SIGTERM, handle_stop);
 
     ok("server started at port 8888", running_log_type);
 
     // GO, GO, GO
     while (!epoll_loop_stop) {
+        // 拿到一堆准备好的 fd
         int fds = epoll_wait(epoll_fd, events, MAX_EVENTS, -1);
+
         if (fds == -1) {
             continue;
         }
 
         // 处理所有 epoll 里的 fd
-        for (int i = 0; i< fds; i++) {
+        for (int i = 0; i < fds; i++) {
             epoll_event curr_event = events[i];
             int curr_fd = events[i].data.fd;
 
@@ -243,18 +253,22 @@ int main(int argc, char* argv[]) {
                 continue;
             }
         }
-        // 关掉所有不用的 fd
+
+        // socket 已经收到了所有 fd, 所有读事件交给了任务队列后，最后关掉所有要关闭的 fd
         {
             std::unique_lock<std::mutex> lock(close_queue_mutex);
             while (!close_queue.empty()) {
+
+                // 从队列里，拿到一个 fd，准备关闭
                 int fd = close_queue.front();
+                // 在队列里，消除第一个 fd
                 close_queue.pop();
 
-                // epoll 中去除
+                // 在 epoll 中，拿掉这个 fd
                 epoll_ctl(epoll_fd, EPOLL_CTL_DEL, fd, nullptr);
                 close(fd);
 
-                // 全局状态中去除
+                // 在全局变量（）中，拿掉这个 fd 的缓存区
                 std::unique_lock<std::mutex> lock_conn(connections_mutex);
                 connections.erase(fd);
             }
@@ -263,7 +277,7 @@ int main(int argc, char* argv[]) {
 
     }
 
-    // 通知所有子线程退出，然后等所有子线程退出
+    // 通知所有子线程要收工了，然后等所有子线程搞定退出
     thread_pool.stop();
 
     // 所有客户端 fd 关掉

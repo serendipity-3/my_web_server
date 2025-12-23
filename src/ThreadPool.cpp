@@ -24,6 +24,7 @@ ThreadPool::ThreadPool(size_t coreNum): stop_(false) {
                     // while (this->tasks_.empty() && !this->stop_) {
                     //     this->condition_.wait(lock);
                     // }
+
                     // 线程池停了继续干完剩下的活。任务队列还有继续干活。
                     this->condition_.wait(lock, [this]() {
                         return this->stop_ || !this->tasks_.empty();
