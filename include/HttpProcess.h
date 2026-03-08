@@ -30,12 +30,12 @@ extern std::mutex connections_mutex;
 extern void defer_close_fd(int other_fd);
 
 struct Connection {
-    int client_fd; // 客户端文件描述符
+    int client_fd;
     int port;
     std::string ip;
-    std::string read_buffer; // 存从客户端读到的所有数据
-    // std::string write_buffer; // 存准备发给客户端的所有数据
-    bool request_completed; // 从客户端读的数据完整
+    std::string read_buffer;
+    bool request_completed;
+    bool processing;
 };
 
 enum class HttpParseResult {

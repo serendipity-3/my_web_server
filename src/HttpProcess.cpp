@@ -17,6 +17,13 @@ void handle_client_read(int client_fd) {
         return;
     }
     Connection &connection = it->second;
+
+    // 防止多线程并发处理同一 fd
+    if (connection.processing) {
+        lock.unlock();
+        return;
+    }
+    connection.processing = true;
     lock.unlock();
 
     // 不是完整数据，继续读数据
@@ -91,10 +98,9 @@ void handle_client_read(int client_fd) {
 
         ok("执行完毕", running_log_type);
 
-        // 放到全局变量 close_queue 里，让主线程在处理完所有事件后，关闭客户端 fd 和相关的 epoll, 全局连接
         defer_close_fd(client_fd);
     }
-    // 不完整的请求而且内核没数据了，所以等下一次 epoll 通知吧
+    connection.processing = false;
 }
 
 
@@ -242,7 +248,11 @@ int process_http(std::map<std::string, std::string> &request_map, Connection &co
 
 // 只支持 HTML 文本文件
 int process_http_get(std::map<std::string, std::string> &request_map, Connection &connection) {
-    std::string path = "." + request_map["Path"];
+    std::string req_path = request_map["Path"];
+    if (req_path == "/") {
+        req_path = "/index.html";
+    }
+    std::string path = "." + req_path;
 
     std::string response;
     std::string file_content;

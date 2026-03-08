@@ -20,14 +20,16 @@ using namespace std;
 
 extern LOG_TYPE start_log_type;
 
-// 控制 epoll 循环
+// keep epoll-loop running
 bool epoll_loop_stop = false;
-// epoll 文件描述符
+// epoll file descriptor
 int epoll_fd;
-// OpenSSL 让我放这个结构体
+// OpenSSL using
 SSL_CTX* global_ssl_ctx = nullptr;
 
-// 为了防止[子线程刚关闭 fd 主线程就 accept 了相同的 fd]情况，用一个队列存子线程要关的所有 fd，统一在主线程中关闭。
+// Don't have the child-thread close a fd.
+// So there use a queue. When the child-thread wants to close a fd, then put the fd in the queue.
+// The main thread will use the queue to close them.
 std::mutex close_queue_mutex;
 std::queue<int> close_queue;
 
@@ -213,7 +215,6 @@ int main(int argc, char* argv[]) {
                         } else {
                             // 错了
                             no("accept failed", running_log_type);
-                            map_epoll_remove_fd(epoll_fd, client_fd);
                             break;
                         }
                     }
@@ -230,7 +231,7 @@ int main(int argc, char* argv[]) {
                     inet_ntop(AF_INET, &client_addr.sin_addr, ip_str, sizeof(ip_str));
                     int port = ntohs(client_addr.sin_port);
 
-                    Connection new_connection {client_fd, port, ip_str, "", false};
+                    Connection new_connection {client_fd, port, ip_str, "", false, false};
                     map_epoll_add_fd(epoll_fd, client_fd, &client_event, new_connection);
                 }
 
