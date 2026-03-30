@@ -113,7 +113,7 @@ int init_socket(int port) {
         return -1;
     }
 
-    if (listen(socket_fd, 5) < 0) {
+    if (listen(socket_fd, 2048) < 0) {
         no("listen failed", LOG_TYPE::CONSOLE);
         close(socket_fd);
         return -1;
@@ -169,7 +169,7 @@ int main(int argc, char* argv[]) {
     // 来一个能处理读写事件的线程池
     ThreadPool thread_pool{};
 
-    // 注册信号，用来关闭 server 进程
+    // 注册信号，用来合理关闭 server 进程
     signal(SIGINT, handle_stop);
     signal(SIGTERM, handle_stop);
 

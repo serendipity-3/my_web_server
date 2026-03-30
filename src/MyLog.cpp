@@ -12,7 +12,7 @@ auto start_log_type = LOG_TYPE::CONSOLE;
 bool log_enabled = true;
 // 保证打印时线程安全
 std::mutex file_mutex;
-std::mutex cout_mutex;
+std::mutex console_mutex;
 
 std::string curr_time() {
     std::time_t t = std::time(nullptr);
@@ -32,13 +32,15 @@ void ok(const std::string &info, LOG_TYPE type) {
         std::string msg = oss.str();
 
         if (type == LOG_TYPE::CONSOLE) {
-            std::unique_lock<std::mutex> lock(cout_mutex);
+            std::unique_lock<std::mutex> lock(console_mutex);
             std::cout << msg << std::endl;
+
         } else if (type == LOG_TYPE::FILE) {
             to_file(msg, "./ok.log");
+
         } else if (type == LOG_TYPE::ALL) {
             {
-                std::unique_lock<std::mutex> lock(cout_mutex);
+                std::unique_lock<std::mutex> lock(console_mutex);
                 std::cout << msg << std::endl;
             }
 
@@ -72,6 +74,8 @@ void to_file(const std::string &info, const std::string &path) {
     std::unique_lock<std::mutex> lock(file_mutex);
 
     // 文件能打开吗
+    // TODO: The code of opening and closing file-operation can move to main function globally.
+    // Because opening and closing file frequently must cause the server running slowly.
     std::ofstream log_file(path, std::ios::app);
     if (!log_file) {
         std::cerr << "❌[" << curr_time() << "]: " << "Cannot open log file " << path << std::endl;

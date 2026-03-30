@@ -5,7 +5,7 @@
 #include "HttpProcess.h"
 
 constexpr size_t MAX_HEADER_SIZE = 8 * 1024; // 8KB 请求头限制
-constexpr size_t MAX_BODY_SIZE = 5 * 1024 * 1024; // 5MB 请求体限制
+constexpr size_t MAX_BODY_SIZE = 4 * 1024 * 1024; // 4MB 请求体限制
 
 // 线程池里的线程要干的活
 void handle_client_read(int client_fd) {
@@ -289,7 +289,7 @@ int process_http_post(std::map<std::string, std::string> &request_map, Connectio
 
     // TODO: 用全局 hashmap 存所有支持的路径 -> 处理的方法
     // 目前就这一个支持的路径吧
-    if (path == "./html") {
+    if (path == "./file") {
         // 向 path 里放数据
         bool success = true; // 数据存到文件里了
         std::string file_name = generate_filename_by_time("file", "html");

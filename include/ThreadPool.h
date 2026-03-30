@@ -10,7 +10,6 @@
 #include <mutex>
 #include <condition_variable>
 #include <functional>
-#include <atomic>
 
 #include "MyLog.h"
 
@@ -30,12 +29,14 @@ public:
 
     // 主线程放个任务到任务队列里
     template<typename Func>
-    void submit(Func func) { {
+    void submit(Func func) {
+        {
             // 锁上，别的线程不能来
             std::unique_lock<std::mutex> lock(this->mutex_);
             // 放任务队列里，无需再拷贝一遍，内部自动拷贝了
             this->tasks_.emplace(std::function<void()>(func));
         }
+
         // 叫醒一个线程起来干活
         this->condition_.notify_one();
     }
