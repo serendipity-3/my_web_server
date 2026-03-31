@@ -7,8 +7,6 @@
 
 #include "MyLog.h"
 
-using namespace std;
-
 auto logType = LOG_TYPE::ALL;
 
 void to_file_test(int id) {

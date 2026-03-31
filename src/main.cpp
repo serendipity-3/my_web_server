@@ -16,7 +16,7 @@
 #include "MyLog.h"
 #include "ThreadPool.h"
 
-using namespace std;
+
 
 extern LOG_TYPE start_log_type;
 
@@ -66,9 +66,9 @@ void map_epoll_remove_fd(int epoll_fd, int other_fd) {
 }
 
 void map_epoll_clean_all(int epoll_fd) {
-    for (const auto& [fd, _] : connections) {
-        epoll_ctl(epoll_fd, EPOLL_CTL_DEL, fd, nullptr);
-        close(fd);
+    for (const auto& kv : connections) {
+        epoll_ctl(epoll_fd, EPOLL_CTL_DEL, kv.first, nullptr);
+        close(kv.first);
     }
     connections.clear();
 }
@@ -270,7 +270,7 @@ int main(int argc, char* argv[]) {
                 close(fd);
 
                 // 在全局变量（）中，拿掉这个 fd 的缓存区
-                std::unique_lock<std::mutex> lock_conn(connections_mutex);
+                std::unique_lock<std::mutex> lock_connections(connections_mutex);
                 connections.erase(fd);
             }
         }

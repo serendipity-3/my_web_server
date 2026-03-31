@@ -16,20 +16,11 @@ cd build && cmake .. && make
 
 ### Running Single Tests
 ```bash
-# Run MyLog tests
-./cmake-build-debug/MyLogTest
-
-# Run ThreadPool tests
-./cmake-build-debug/ThreadPoolTest
-
-# Run FileProcess tests
-./cmake-build-debug/FileTest
-
-# Run JSON tests
-./cmake-build-debug/JsonTest
-
-# Run the web server
-./cmake-build-debug/WebServer
+./cmake-build-debug/MyLogTest        # Run MyLog tests
+./cmake-build-debug/ThreadPoolTest   # Run ThreadPool tests
+./cmake-build-debug/FileTest         # Run FileProcess tests
+./cmake-build-debug/JsonTest         # Run JSON tests
+./cmake-build-debug/WebServer        # Run the web server
 ```
 
 ### Rebuilding a Single Target
@@ -69,11 +60,18 @@ rm -rf cmake-build-debug/* build/*
 | Global variables | descriptive, lowercase | `running_log_type`, `epoll_fd` |
 
 ### Code Formatting
-- **Indentation**: 4 spaces (match existing code)
+- **Indentation**: 4 spaces
 - **Braces**: Opening brace on same line for functions/classes
-- **Pointer/Reference**: `Type& ref`, `Type* ptr` (space before *, not after)
-- **Include order**: System headers → Third-party → Project headers
+- **Pointer/Reference**: `Type& ref`, `Type* ptr`
+- **Include order**: C++ Standard Library → System headers → Third-party → Project headers
 - **Line length**: Keep under 120 characters
+- **JSON alias**: Use `using json = nlohmann::json;` after includes
+
+### Import Organization
+1. C++ Standard Library (`<vector>`, `<string>`, `<map>`, etc.)
+2. System headers (`<sys/socket.h>`, `<netinet/in.h>`, etc.)
+3. Third-party libraries (`<nlohmann/json.hpp>`, OpenSSL)
+4. Project headers (`"MyLog.h"`, `"ThreadPool.h"`)
 
 ### Types & Modern C++
 - **C++ Standard**: C++11
@@ -82,15 +80,16 @@ rm -rf cmake-build-debug/* build/*
 - Use `auto` sparingly; explicit types preferred for clarity
 - Use `constexpr` for compile-time constants
 - Use `enum class` instead of plain enums
+- Prefer value semantics; use pointers/references only when necessary
 
-### Thread Safety
+## Thread Safety
 - Always lock `connections_mutex` when accessing `connections` map
 - Use `std::unique_lock<std::mutex>` for scoped locking
 - Use `std::lock_guard<std::mutex>` for simple RAII locks
 - Set `processing = true` immediately after acquiring lock to prevent concurrent processing
 
-### Error Handling
-- Use logging functions: `ok(msg, log_type)` for success, `no(msg, log_type)` for errors
+## Error Handling
+- Use logging functions: `ok(msg, type)` for success, `no(msg, type)` for errors
 - Return `-1` or `false` on failure, `0` or `true` on success
 - Close file descriptors via `defer_close_fd()` to let main thread handle cleanup
 - Handle `EAGAIN`/`EWOULDBLOCK` for non-blocking I/O operations
@@ -113,12 +112,6 @@ response.append("HTTP/1.1 200 OK\r\n")
         .append(body);
 ```
 
-### Import Organization
-1. C++ Standard Library headers (`<vector>`, `<string>`, etc.)
-2. System headers (`<sys/socket.h>`, `<netinet/in.h>`, etc.)
-3. Third-party libraries (`<nlohmann/json.hpp>`, OpenSSL)
-4. Project headers (`"MyLog.h"`, `"ThreadPool.h"`)
-
 ### ThreadPool Usage
 ```cpp
 ThreadPool pool;                    // Default: hardware_concurrency threads
@@ -128,7 +121,39 @@ pool.submit([]() {
 pool.stop();                        // Graceful shutdown
 ```
 
-### Common Patterns
+## Key Data Structures
+
+### Connection Struct
+```cpp
+struct Connection {
+    int client_fd;
+    int port;
+    std::string ip;
+    std::string read_buffer;
+    bool request_completed;
+    bool processing;
+};
+```
+
+### Global Variables (from HttpProcess.h)
+```cpp
+extern std::unordered_map<int, Connection> connections;
+extern std::mutex connections_mutex;
+extern void defer_close_fd(int other_fd);
+```
+
+### HttpParseResult Enum
+```cpp
+enum class HttpParseResult {
+    Incomplete,         // Not yet complete
+    Complete,           // Request complete
+    HeaderTooLarge,     // Header exceeds limit
+    BodyTooLarge,       // Body exceeds limit
+    MalformedHeader     // Content-Length parse failed
+};
+```
+
+## Common Patterns
 
 **Checking map entries**:
 ```cpp
@@ -148,6 +173,23 @@ while (!connection.request_completed) {
     else if (errno == EAGAIN || errno == EWOULDBLOCK) { break; }
     else { /* error */ }
 }
+```
+
+**Connection processing with mutex**:
+```cpp
+std::unique_lock<std::mutex> lock(connections_mutex);
+auto it = connections.find(client_fd);
+if (it == connections.end()) {
+    lock.unlock();
+    return;
+}
+Connection& connection = it->second;
+if (connection.processing) {
+    lock.unlock();
+    return;
+}
+connection.processing = true;
+lock.unlock();
 ```
 
 ## Dependencies

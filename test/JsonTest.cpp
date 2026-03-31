@@ -5,7 +5,6 @@
 #include <iostream>
 #include <nlohmann/json.hpp>
 
-using namespace std;
 using json = nlohmann::json;
 
 int main() {
@@ -18,8 +17,8 @@ int main() {
     data["filename"] = "file_12341.html";
     myJson["data"] = data;
 
-    string str = myJson.dump();
-    cout << str << endl;
+    std::string str = myJson.dump();
+    std::cout << str << std::endl;
 
     return 0;
 }

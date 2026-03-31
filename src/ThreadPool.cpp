@@ -9,7 +9,7 @@
 
 
 ThreadPool::ThreadPool(size_t coreNum): stop_(false) {
-    for (int i = 0; i < coreNum; i++) {
+    for (size_t i = 0; i < coreNum; i++) {
         // 启动一个线程干活
         this->threads_.emplace_back([this, i]() {
             std::ostringstream oss;
