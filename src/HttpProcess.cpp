@@ -554,7 +554,7 @@ int send_all(const std::string &response, Connection &connection) {
                 continue;
             }
             if (errno == EAGAIN || errno == EWOULDBLOCK) {
-                usleep(1000);
+                // usleep(100);
                 continue;
             }
             no(running_log_type, "对面关闭了", __FILE__, __LINE__);
@@ -563,13 +563,4 @@ int send_all(const std::string &response, Connection &connection) {
     }
 
     return 0;
-}
-
-int64_t get_file_size(std::string &filename) {
-    struct stat file_stat{};
-
-    if (stat(filename.c_str(), &file_stat) < 0) {
-        return -1;
-    }
-    return file_stat.st_size;
 }

@@ -12,6 +12,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(OpenSSL REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
+find_package(GTest CONFIG REQUIRED)
 
 set(SOURCES
         src/main.cpp
@@ -48,3 +49,22 @@ target_link_libraries(WebServer PRIVATE OpenSSL::SSL OpenSSL::Crypto)
 # 连接 json 库
 target_link_libraries(WebServer PRIVATE nlohmann_json::nlohmann_json)
 target_link_libraries(JsonTest PRIVATE nlohmann_json::nlohmann_json)
+
+# Google Test 单元测试
+enable_testing()
+
+add_executable(HttpParseTest test/HttpParseTest.cpp test/TestMocks.cpp src/HttpProcess.cpp src/FileProcess.cpp src/ThreadPool.cpp src/MyLog.cpp)
+target_include_directories(HttpParseTest PRIVATE ${CMAKE_SOURCE_DIR}/include)
+target_link_libraries(HttpParseTest PRIVATE GTest::gtest GTest::gtest_main OpenSSL::SSL OpenSSL::Crypto nlohmann_json::nlohmann_json pthread)
+
+add_executable(FileProcessTest test/FileProcessTest.cpp src/FileProcess.cpp src/MyLog.cpp)
+target_include_directories(FileProcessTest PRIVATE ${CMAKE_SOURCE_DIR}/include)
+target_link_libraries(FileProcessTest PRIVATE GTest::gtest GTest::gtest_main)
+
+add_executable(ThreadPoolGTest test/ThreadPoolGTest.cpp src/ThreadPool.cpp src/MyLog.cpp)
+target_include_directories(ThreadPoolGTest PRIVATE ${CMAKE_SOURCE_DIR}/include)
+target_link_libraries(ThreadPoolGTest PRIVATE GTest::gtest GTest::gtest_main pthread)
+
+add_test(NAME HttpParseTest COMMAND HttpParseTest)
+add_test(NAME FileProcessTest COMMAND FileProcessTest)
+add_test(NAME ThreadPoolGTest COMMAND ThreadPoolGTest)

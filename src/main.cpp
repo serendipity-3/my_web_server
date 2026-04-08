@@ -151,7 +151,7 @@ void handle_stop(int sig) {
 int main(int argc, char* argv[]) {
 
     const int port = 8888;
-    const int MAX_EVENTS = 1024;
+    const int MAX_EVENTS = 2048;
 
     // 初始化日志文件
     init_log();

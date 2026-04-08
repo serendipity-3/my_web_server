@@ -36,3 +36,12 @@ std::string get_file_content(const std::string &filename) {
 
     return temp_content.str();
 }
+
+int64_t get_file_size(std::string &filename) {
+    struct stat file_stat{};
+
+    if (stat(filename.c_str(), &file_stat) < 0) {
+        return -1;
+    }
+    return file_stat.st_size;
+}

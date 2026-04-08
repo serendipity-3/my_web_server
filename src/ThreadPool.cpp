@@ -69,4 +69,5 @@ void ThreadPool::stop() {
 }
 
 ThreadPool::~ThreadPool() {
+    stop();
 }
