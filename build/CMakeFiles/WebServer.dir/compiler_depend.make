@@ -1038,6 +1038,9 @@ CMakeFiles/WebServer.dir/src/ThreadPool.cpp.o: ../src/ThreadPool.cpp \
   /usr/include/c++/11/ext/concurrence.h \
   /usr/include/c++/11/functional \
   /usr/include/c++/11/bits/std_function.h \
+  /usr/include/c++/11/atomic \
+  /usr/include/c++/11/bits/atomic_base.h \
+  /usr/include/c++/11/bits/atomic_lockfree_defines.h \
   ../include/MyLog.h \
   /usr/include/c++/11/iostream \
   /usr/include/c++/11/ostream \
@@ -1566,7 +1569,8 @@ CMakeFiles/WebServer.dir/src/main.cpp.o: ../src/main.cpp \
   /usr/include/c++/11/bits/stl_deque.h \
   /usr/include/c++/11/bits/deque.tcc \
   /usr/include/c++/11/bits/stl_queue.h \
-  /usr/include/c++/11/condition_variable
+  /usr/include/c++/11/condition_variable \
+  /usr/include/c++/11/atomic
 
 
 /home/yuan/vcpkg/installed/x64-linux/include/openssl/quic.h:
@@ -1686,6 +1690,8 @@ CMakeFiles/WebServer.dir/src/main.cpp.o: ../src/main.cpp \
 /usr/include/x86_64-linux-gnu/bits/signum-generic.h:
 
 ../src/main.cpp:
+
+/usr/include/c++/11/atomic:
 
 /usr/include/c++/11/bits/deque.tcc:
 

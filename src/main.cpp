@@ -25,7 +25,7 @@ bool epoll_loop_stop = false;
 // epoll file descriptor
 int epoll_fd;
 // OpenSSL using
-SSL_CTX* global_ssl_ctx = nullptr;
+// SSL_CTX* global_ssl_ctx = nullptr;
 
 // Don't have the child-thread close a fd.
 // So there use a queue. When the child-thread wants to close a fd, then put the fd in the queue.
@@ -39,21 +39,22 @@ void defer_close_fd(int other_fd) {
 }
 
 // 用一个 map 存所有的客户端连接
+// 一个客户端 socket fd 对应一个 Connection 结构体
 std::unordered_map<int, Connection> connections;
 std::mutex connections_mutex;
 
-void map_epoll_add_fd(int epoll_fd, int other_fd, epoll_event *event, Connection &connection) {
-    if (epoll_ctl(epoll_fd, EPOLL_CTL_ADD, other_fd, event) < 0) {
+void map_epoll_add_fd(int epoll_fd, int client_fd, epoll_event *event, Connection &connection) {
+    if (epoll_ctl(epoll_fd, EPOLL_CTL_ADD, client_fd, event) < 0) {
         std::ostringstream oss;
-        oss << "epoll_ctl ADD failed, fd: " << other_fd << ", error: " << strerror(errno);
-        no(oss.str(), running_log_type);
+        oss << "epoll_ctl ADD failed, fd: " << client_fd << ", error: " << strerror(errno);
+        no(running_log_type, oss.str(), __FILE__, __LINE__);
 
-        close(other_fd);
+        close(client_fd);
         return; // 不加入 connections
     }
 
     std::unique_lock<std::mutex> lock(connections_mutex);
-    connections.emplace(other_fd, connection);
+    connections.emplace(client_fd, connection);
     lock.unlock();
 }
 
@@ -80,7 +81,7 @@ int set_non_blocking(int fd) {
         std::string err = "fcntl failed, error: ";
         err.append(strerror(errno));
 
-        no(err, start_log_type);
+        no(start_log_type, err, __FILE__, __LINE__);
         return -1;
     }
 
@@ -90,7 +91,7 @@ int set_non_blocking(int fd) {
 int init_socket(int port) {
     const int socket_fd = socket(AF_INET, SOCK_STREAM, 0);
     if (socket_fd < 0) {
-        no("socket() failed", LOG_TYPE::CONSOLE);
+        no(LOG_TYPE::CONSOLE, "socket() failed",  __FILE__, __LINE__);
         return -1;
     }
 
@@ -102,26 +103,26 @@ int init_socket(int port) {
     // 为了服务可以快速重启，所以启动端口复用
     int opt = 1;
     if (setsockopt(socket_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {
-        no("setsockeopt failed", LOG_TYPE::CONSOLE);
+        no(LOG_TYPE::CONSOLE, "setsockeopt failed",  __FILE__, __LINE__);
         close(socket_fd);
         return -1;
     }
 
     if (bind(socket_fd, reinterpret_cast<struct sockaddr *>(&socket_in), sizeof(socket_in)) < 0) {
-        no("port bind failed", LOG_TYPE::CONSOLE);
+        no(LOG_TYPE::CONSOLE, "port bind failed", __FILE__, __LINE__);
         close(socket_fd);
         return -1;
     }
 
     if (listen(socket_fd, 2048) < 0) {
-        no("listen failed", LOG_TYPE::CONSOLE);
+        no(LOG_TYPE::CONSOLE, "listen failed", __FILE__, __LINE__);
         close(socket_fd);
         return -1;
     }
 
     // 设置 socket 非阻塞，accept 不会等
     if (set_non_blocking(socket_fd) < 0) {
-        no("set_non_blocking failed", LOG_TYPE::CONSOLE);
+        no(LOG_TYPE::CONSOLE, "set_non_blocking failed",  __FILE__, __LINE__);
         close(socket_fd);
         return -1;
     }
@@ -148,7 +149,7 @@ int main(int argc, char* argv[]) {
     // 初始化 epoll, 放入 socket fd
     epoll_fd = epoll_create1(0);
     if (epoll_fd < 0) {
-        no("epoll_create failed", LOG_TYPE::CONSOLE);
+        no( LOG_TYPE::CONSOLE, "epoll_create failed", __FILE__, __LINE__);
         return -1;
     }
 
@@ -158,7 +159,7 @@ int main(int argc, char* argv[]) {
     socket_event.data.fd = socket_fd;
     // 放到 epoll 里
     if (epoll_ctl(epoll_fd, EPOLL_CTL_ADD, socket_fd, &socket_event) < 0) {
-        no("epoll_ctl ADD socket_fd failed", LOG_TYPE::CONSOLE);
+        no(LOG_TYPE::CONSOLE, "epoll_ctl ADD socket_fd failed", __FILE__, __LINE__);
         close(socket_fd);
         close(epoll_fd);
         return -1;
@@ -173,7 +174,7 @@ int main(int argc, char* argv[]) {
     signal(SIGINT, handle_stop);
     signal(SIGTERM, handle_stop);
 
-    ok("server started at port 8888", running_log_type);
+    ok(running_log_type, "server started at port 8888", __FILE__, __LINE__);
 
     // GO, GO, GO
     while (!epoll_loop_stop) {
@@ -191,7 +192,7 @@ int main(int argc, char* argv[]) {
 
             // 出错了,或客户端关了
             if (curr_event.events & (EPOLLERR | EPOLLHUP)) {
-                ok("closing fd, it will be auto removed from epoll", running_log_type);
+                ok(running_log_type, "closing fd, it will be auto removed from epoll", __FILE__, __LINE__);
                 map_epoll_remove_fd(epoll_fd, curr_fd);
                 continue;
             }
@@ -212,11 +213,10 @@ int main(int argc, char* argv[]) {
                         if (errno == EAGAIN || errno == EWOULDBLOCK) {
                             // accept 队列空了，等下一轮通知吧
                             break;
-                        } else {
-                            // 错了
-                            no("accept failed", running_log_type);
-                            break;
                         }
+                        // 错了
+                        no(running_log_type, "accept failed", __FILE__, __LINE__);
+                        break;
                     }
                     // 设置非阻塞
                     set_non_blocking(client_fd);
@@ -245,6 +245,7 @@ int main(int argc, char* argv[]) {
                 thread_pool.submit([curr_fd]() {
                     handle_client_read(curr_fd);
                 });
+
                 continue;
             }
 
@@ -288,7 +289,7 @@ int main(int argc, char* argv[]) {
     // epoll 关掉
     close(epoll_fd);
 
-    ok("server stopped", running_log_type);
+    ok(running_log_type, "server stopped", __FILE__, __LINE__);
 
     return 0;
 }

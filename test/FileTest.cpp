@@ -7,7 +7,7 @@
 int main() {
 
     std::string name = generate_filename_by_time("file", "html");
-    ok(name, LOG_TYPE::CONSOLE);
+    ok(LOG_TYPE::CONSOLE, name, __FILE__, __LINE__);
 
     return 0;
 }

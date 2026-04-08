@@ -49,13 +49,13 @@ void handle_client_read(int client_fd) {
                 case HttpParseResult::HeaderTooLarge:
                 case HttpParseResult::BodyTooLarge:
                 case HttpParseResult::MalformedHeader:
-                    no("请求非法或请求太大了，关闭连接", running_log_type);
+                    no(running_log_type, "请求非法或请求太大了，关闭连接",  __FILE__, __LINE__);
                     defer_close_fd(client_fd);
                     // 这个活不用干了
                     return;
             }
         } else if (bytes_received == 0) {
-            no("客户端连接关闭了", running_log_type);
+            no(running_log_type, "客户端连接关闭了", __FILE__, __LINE__);
             defer_close_fd(client_fd);
             // 甲方跑路了，不用干这个活了
             return;
@@ -63,12 +63,11 @@ void handle_client_read(int client_fd) {
             if (errno == EAGAIN || errno == EWOULDBLOCK) {
                 // 没有数据可读，等下一次 epoll 通知
                 break;
-            } else {
-                no("recv 客户端数据出错", running_log_type);
-                defer_close_fd(client_fd);
-                // 这个活不用干了
-                return;
             }
+            no(running_log_type, "recv 客户端数据出错", __FILE__, __LINE__);
+            defer_close_fd(client_fd);
+            // 这个活不用干了
+            return;
         }
     }
 
@@ -80,7 +79,7 @@ void handle_client_read(int client_fd) {
         // 解析成 map
         request_str_to_map(connection.read_buffer, request_map);
 
-        ok(connection.read_buffer, running_log_type);
+        ok(running_log_type, connection.read_buffer, __FILE__, __LINE__);
 
         // 打印日志
         std::stringstream oss1;
@@ -92,11 +91,11 @@ void handle_client_read(int client_fd) {
             std::cout << pair.first << ": " << pair.second << std::endl;
         }
 
-        ok(oss1.str(), running_log_type);
+        ok(running_log_type, oss1.str(),  __FILE__, __LINE__);
 
         process_http(request_map, connection);
 
-        ok("执行完毕", running_log_type);
+        ok(running_log_type, "执行完毕", __FILE__, __LINE__);
 
         defer_close_fd(client_fd);
     }
@@ -159,7 +158,7 @@ int request_str_to_map(const std::string &request_str, std::map<std::string, std
     // 对不对
     int main_part_end = request_str.find("\r\n\r\n");
     if (main_part_end == std::string::npos) {
-        no("没找到 \r\n\r\n HTTP 字符串转 Map 失败", running_log_type);
+        no(running_log_type, "没找到 \r\n\r\n HTTP 字符串转 Map 失败",  __FILE__, __LINE__);
         return -1;
     }
 
@@ -216,7 +215,7 @@ int process_http(std::map<std::string, std::string> &request_map, Connection &co
     // 拿到方法
     auto it = request_map.find("Method");
     if (it == request_map.end()) {
-        no("没有 HTTP 请求方法", running_log_type);
+        no(running_log_type, "没有 HTTP 请求方法", __FILE__, __LINE__);
         return -1;
     }
     std::string method = it->second;
@@ -256,7 +255,7 @@ int process_http_get(std::map<std::string, std::string> &request_map, Connection
 
     std::string response;
     std::string file_content;
-    ok(path, running_log_type);
+    ok(running_log_type, path,  __FILE__, __LINE__);
     if (file_exists(path)) {
         // 成了
         file_content = get_file_content(path);
@@ -276,7 +275,7 @@ int process_http_get(std::map<std::string, std::string> &request_map, Connection
                 .append("\r\n")
                 .append("<html><body><h1>404 Not Found</h1></body></html>");
     }
-    ok(response, running_log_type);
+    ok(running_log_type, response,  __FILE__, __LINE__);
     return send_all(response, connection);
 }
 
@@ -303,13 +302,13 @@ int process_http_post(std::map<std::string, std::string> &request_map, Connectio
             // TODO: 这里若是两个客户端写到同一个地方，多线程会错乱的，所以要加个确定用户身份
             output_file.write(file_content.c_str(), file_content.size());
             if (output_file.fail()) {
-                no("文件打开了, 却存不了数据", running_log_type);
+                no(running_log_type, "文件打开了, 却存不了数据",  __FILE__, __LINE__);
                 success = false;
             }
 
             output_file.close();
         } else {
-            no("文件打不开", running_log_type);
+            no( running_log_type, "文件打不开", __FILE__, __LINE__);
             success = false;
         }
 
@@ -550,15 +549,15 @@ int send_all(const std::string &response, Connection &connection) {
 
     while (send_sum < all_size) {
         ssize_t send_part = send(fd, buf + send_sum, all_size - send_sum, 0);
+
         if (send_part > 0) {
             send_sum += send_part;
-        } else if (send_part == -1 && (errno == EAGAIN || errno == EWOULDBLOCK)) {
-            // TODO: 可以在这里改为 epoll 写事件，在管理连接的全局变量里放上已经写的数据缓存，等下一次 epoll 通知继续写。
-            // 缓冲区满了时，避免 CPU 空转太过
-            usleep(1000);
-        } else {
-            no("写入出错了", running_log_type);
-            return -1;
+        } else if (send_part == -1) {
+            if (errno == EINTR) {
+                continue;
+            }
+            no( running_log_type, "发不出去数据了", __FILE__, __LINE__);
+            return -1;  // EPIPE, ECONNRESET, EAGAIN 等都返回失败
         }
     }
 

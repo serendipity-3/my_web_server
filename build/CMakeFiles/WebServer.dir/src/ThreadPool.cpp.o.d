@@ -155,7 +155,9 @@ CMakeFiles/WebServer.dir/src/ThreadPool.cpp.o: \
  /usr/include/c++/11/bits/allocated_ptr.h \
  /usr/include/c++/11/ext/aligned_buffer.h \
  /usr/include/c++/11/ext/concurrence.h /usr/include/c++/11/functional \
- /usr/include/c++/11/bits/std_function.h \
+ /usr/include/c++/11/bits/std_function.h /usr/include/c++/11/atomic \
+ /usr/include/c++/11/bits/atomic_base.h \
+ /usr/include/c++/11/bits/atomic_lockfree_defines.h \
  /home/yuan/workspace/clion/my-web-server/include/MyLog.h \
  /usr/include/c++/11/iostream /usr/include/c++/11/ostream \
  /usr/include/c++/11/ios /usr/include/c++/11/bits/ios_base.h \

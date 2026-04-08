@@ -14,11 +14,11 @@ void to_file_test(int id) {
 }
 
 void ok_test(int id) {
-    ok("测试 ok thread:" + std::to_string(id), logType);
+    ok(logType, "测试 ok thread:" + std::to_string(id), __FILE__, __LINE__);
 }
 
 void no_test(int id) {
-    no("测试 no thread:" + std::to_string(id), logType);
+    no(logType, "测试 no thread:" + std::to_string(id), __FILE__, __LINE__);
 }
 
 void to_file_test_fun() {

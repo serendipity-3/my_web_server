@@ -5,8 +5,9 @@
 #include "MyLog.h"
 
 // 全局使用的日志打印类型
-auto running_log_type = LOG_TYPE::ALL;
-auto start_log_type = LOG_TYPE::CONSOLE;
+LOG_TYPE running_log_type = LOG_TYPE::ALL;
+
+LOG_TYPE start_log_type = LOG_TYPE::CONSOLE;
 
 // 开不开日志
 bool log_enabled = true;
@@ -23,11 +24,11 @@ std::string curr_time() {
     return oss.str();
 }
 
-void ok(const std::string &info, LOG_TYPE type) {
+void ok(LOG_TYPE type, const std::string &info, const std::string &filename, int line_num) {
     if (log_enabled) {
         std::ostringstream oss;
         oss << "🎯 Yes,ok[" << curr_time() << "]"
-            << "[" << __FILE__ << ":" << __LINE__ << "]: "
+            << "[" << filename << ":" << line_num << "]: "
             << info;
         std::string msg = oss.str();
 
@@ -49,11 +50,11 @@ void ok(const std::string &info, LOG_TYPE type) {
     }
 }
 
-void no(const std::string &info, LOG_TYPE type) {
+void no(LOG_TYPE type, const std::string &info, const std::string &filename, int line_num) {
     if (log_enabled) {
         std::ostringstream oss;
         oss << "❌ Oh,no[" << curr_time() << "]"
-            << "[" << __FILE__ << ":" << __LINE__ << "]: "
+            << "[" << filename << ":" << line_num << "]: "
             << info;
 
         std::string msg = oss.str();

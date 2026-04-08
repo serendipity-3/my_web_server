@@ -1,129 +1,55 @@
 # Agent Instructions for my-web-server
 
 ## Project Overview
-This is a C++11 HTTP web server using epoll for I/O multiplexing and a thread pool for concurrent request processing. It supports HTTP methods (GET, POST, PUT, DELETE, HEAD, OPTIONS, PATCH) and TLS/SSL encryption via OpenSSL.
+C++11 HTTP web server using epoll (edge-triggered, non-blocking) + thread pool for concurrent request processing. Supports GET, POST, PUT, DELETE, HEAD, OPTIONS, PATCH. Single binary, no framework.
 
-## Build Commands
+## Build & Run
 
-### Full Build
+### Prerequisites
+- **vcpkg** installed at `~/vcpkg` with `x64-linux` triplet. Dependencies: `openssl`, `nlohmann-json`.
+- CMake 3.22.1+, C++11 compiler, pthread.
+
+### Build
 ```bash
-# Using cmake-build-debug (CLion default)
 cd cmake-build-debug && cmake .. && make
-
-# Using build directory
-cd build && cmake .. && make
 ```
+All targets: `WebServer`, `MyLogTest`, `ThreadPoolTest`, `FileTest`, `JsonTest`.
 
-### Running Single Tests
+### Run
 ```bash
-./cmake-build-debug/MyLogTest        # Run MyLog tests
-./cmake-build-debug/ThreadPoolTest   # Run ThreadPool tests
-./cmake-build-debug/FileTest         # Run FileProcess tests
-./cmake-build-debug/JsonTest         # Run JSON tests
-./cmake-build-debug/WebServer        # Run the web server
+./cmake-build-debug/WebServer        # starts on port 8888
+./cmake-build-debug/MyLogTest        # logging tests
+./cmake-build-debug/ThreadPoolTest   # thread pool tests
+./cmake-build-debug/FileTest         # file processing tests
+./cmake-build-debug/JsonTest         # JSON parsing tests
 ```
 
-### Rebuilding a Single Target
-```bash
-cd cmake-build-debug && make WebServer      # rebuild only WebServer
-cd cmake-build-debug && make MyLogTest      # rebuild only MyLogTest
-```
+### Notes
+- `test/MyServerTest.cpp` exists but is **NOT** in CMakeLists.txt (not built).
+- TLS/SSL code in `main.cpp` is **commented out** — server runs plaintext only currently.
+- Logs write to `ok.log` and `no.log` in project root.
 
-### Clean Build
-```bash
-rm -rf cmake-build-debug/* build/*
-```
+## Architecture
 
-## Code Style Guidelines
+### Entry Point
+`src/main.cpp` — epoll event loop on port 8888, backlog 2048.
 
-### File Structure
-- **Headers**: `include/*.h`
-- **Sources**: `src/*.cpp`
-- **Tests**: `test/*.cpp`
-- Use include guards: `#ifndef XXX_H` / `#define XXX_H` / `#endif`
-- Standard CLion copyright header on new files:
-  ```cpp
-  //
-  // Created by 15565 on YYYY/MM/DD.
-  //
-  ```
+### Flow
+1. Main thread: epoll_wait → accept new connections → add to epoll (EPOLLIN | EPOLLET)
+2. On EPOLLIN: submit `handle_client_read()` to thread pool
+3. Thread pool worker: recv loop (non-blocking) → parse HTTP → dispatch to `process_http_*()` → `send_all()` → `defer_close_fd()`
+4. Main thread: processes `close_queue` each epoll iteration (child threads never close fds directly)
 
-### Naming Conventions
-| Element | Convention | Example |
-|---------|------------|---------|
-| Classes/Structs | CamelCase | `ThreadPool`, `Connection` |
-| Functions | snake_case | `file_exists`, `process_http_get` |
-| Variables | snake_case | `client_fd`, `read_buffer` |
-| Constants | CamelCase with k prefix | Not used; use `constexpr` instead |
-| Enum values | CamelCase | `HttpParseResult::Complete` |
-| Private members | trailing underscore | `threads_`, `stop_`, `mutex_` |
-| Global variables | descriptive, lowercase | `running_log_type`, `epoll_fd` |
+### File Boundaries
+| File | Purpose |
+|------|---------|
+| `src/main.cpp` | epoll loop, socket setup, signal handling, connection lifecycle |
+| `src/HttpProcess.cpp` | HTTP parsing, method dispatch, response building, file serving |
+| `src/FileProcess.cpp` | File I/O utilities (exists, size, content, time-based naming) |
+| `src/ThreadPool.cpp` | Thread pool implementation |
+| `src/MyLog.cpp` | Logging (console/file/both via `ok()` / `no()`) |
 
-### Code Formatting
-- **Indentation**: 4 spaces
-- **Braces**: Opening brace on same line for functions/classes
-- **Pointer/Reference**: `Type& ref`, `Type* ptr`
-- **Include order**: C++ Standard Library → System headers → Third-party → Project headers
-- **Line length**: Keep under 120 characters
-- **JSON alias**: Use `using json = nlohmann::json;` after includes
-
-### Import Organization
-1. C++ Standard Library (`<vector>`, `<string>`, `<map>`, etc.)
-2. System headers (`<sys/socket.h>`, `<netinet/in.h>`, etc.)
-3. Third-party libraries (`<nlohmann/json.hpp>`, OpenSSL)
-4. Project headers (`"MyLog.h"`, `"ThreadPool.h"`)
-
-### Types & Modern C++
-- **C++ Standard**: C++11
-- Use `std::string` instead of C-strings when possible
-- Use `std::map` and `std::unordered_map` for collections
-- Use `auto` sparingly; explicit types preferred for clarity
-- Use `constexpr` for compile-time constants
-- Use `enum class` instead of plain enums
-- Prefer value semantics; use pointers/references only when necessary
-
-## Thread Safety
-- Always lock `connections_mutex` when accessing `connections` map
-- Use `std::unique_lock<std::mutex>` for scoped locking
-- Use `std::lock_guard<std::mutex>` for simple RAII locks
-- Set `processing = true` immediately after acquiring lock to prevent concurrent processing
-
-## Error Handling
-- Use logging functions: `ok(msg, type)` for success, `no(msg, type)` for errors
-- Return `-1` or `false` on failure, `0` or `true` on success
-- Close file descriptors via `defer_close_fd()` to let main thread handle cleanup
-- Handle `EAGAIN`/`EWOULDBLOCK` for non-blocking I/O operations
-
-### Logging Usage
-```cpp
-ok("Operation succeeded", LOG_TYPE::CONSOLE);   // Print to console
-no("Operation failed", LOG_TYPE::FILE);         // Write to no.log
-ok("Debug info", LOG_TYPE::ALL);                 // Both console and file
-```
-
-### HTTP Response Building
-Use chained `append()` for response strings:
-```cpp
-response.append("HTTP/1.1 200 OK\r\n")
-        .append("Content-Type: text/html\r\n")
-        .append("Content-Length: " + std::to_string(size) + "\r\n")
-        .append("Connection: close\r\n")
-        .append("\r\n")
-        .append(body);
-```
-
-### ThreadPool Usage
-```cpp
-ThreadPool pool;                    // Default: hardware_concurrency threads
-pool.submit([]() {
-    // task lambda
-});
-pool.stop();                        // Graceful shutdown
-```
-
-## Key Data Structures
-
-### Connection Struct
+### Key Data Structures
 ```cpp
 struct Connection {
     int client_fd;
@@ -131,74 +57,43 @@ struct Connection {
     std::string ip;
     std::string read_buffer;
     bool request_completed;
-    bool processing;
+    bool processing;       // prevents concurrent processing of same fd
 };
-```
 
-### Global Variables (from HttpProcess.h)
-```cpp
-extern std::unordered_map<int, Connection> connections;
+extern std::unordered_map<int, Connection> connections;  // guarded by connections_mutex
 extern std::mutex connections_mutex;
-extern void defer_close_fd(int other_fd);
+extern void defer_close_fd(int fd);  // thread-safe: queues fd for main-thread close
 ```
 
-### HttpParseResult Enum
-```cpp
-enum class HttpParseResult {
-    Incomplete,         // Not yet complete
-    Complete,           // Request complete
-    HeaderTooLarge,     // Header exceeds limit
-    BodyTooLarge,       // Body exceeds limit
-    MalformedHeader     // Content-Length parse failed
-};
-```
+### Limits
+- Max header: 8KB (`MAX_HEADER_SIZE`)
+- Max body: 4MB (`MAX_BODY_SIZE`)
+- epoll max events: 1024
 
-## Common Patterns
+## Thread Safety Rules
+- **ALWAYS** lock `connections_mutex` before accessing `connections` map
+- Set `connection.processing = true` immediately after acquiring lock to prevent double-processing
+- **NEVER** close fds from worker threads — use `defer_close_fd()` instead
+- `close_queue` has its own `close_queue_mutex` — main thread drains it each epoll cycle
 
-**Checking map entries**:
-```cpp
-auto it = request_map.find("Method");
-if (it == request_map.end()) {
-    no("Key not found", running_log_type);
-    return -1;
-}
-```
+## Known Limitations & TODOs
+- **No EPOLLOUT handling**: `send_all()` blocks with `usleep(1000)` on `EAGAIN`. Large responses may stall.
+- **PUT/PATCH incomplete**: Body writing logic is stubbed (`int updated = 0` always).
+- **Path traversal**: DELETE does not sanitize `../` — noted as TODO in code.
+- **No routing table**: POST only handles `./file` path. TODO: global route map.
+- **No Keep-Alive**: All responses use `Connection: close`.
+- **Single Content-Type**: Only `text/html` served for GET responses.
 
-**Non-blocking recv loop**:
-```cpp
-while (!connection.request_completed) {
-    ssize_t bytes = recv(fd, buffer, sizeof(buffer), 0);
-    if (bytes > 0) { /* process */ }
-    else if (bytes == 0) { /* client closed */ }
-    else if (errno == EAGAIN || errno == EWOULDBLOCK) { break; }
-    else { /* error */ }
-}
-```
-
-**Connection processing with mutex**:
-```cpp
-std::unique_lock<std::mutex> lock(connections_mutex);
-auto it = connections.find(client_fd);
-if (it == connections.end()) {
-    lock.unlock();
-    return;
-}
-Connection& connection = it->second;
-if (connection.processing) {
-    lock.unlock();
-    return;
-}
-connection.processing = true;
-lock.unlock();
-```
+## Code Style
+- **Naming**: CamelCase for types, snake_case for functions/vars, trailing `_` for private members
+- **Braces**: Opening on same line
+- **Indent**: 4 spaces
+- **Headers**: Include guards (`#ifndef XXX_H`), CLion creator comment
+- **Include order**: Standard library → System → Third-party → Project headers
+- **JSON**: `using json = nlohmann::json;` after includes
+- **Return convention**: `0`/`true` = success, `-1`/`false` = failure
 
 ## Dependencies
-- **OpenSSL**: SSL/TLS support (`OpenSSL::SSL`, `OpenSSL::Crypto`)
-- **nlohmann_json**: JSON parsing (`nlohmann_json::nlohmann_json`)
-- **pthread**: Threading (linked automatically on Linux)
-
-## Configuration
-- Default server port: `8888`
-- Default epoll max events: `1024`
-- Max header size: `8KB`
-- Max body size: `4MB`
+- **OpenSSL** (`OpenSSL::SSL`, `OpenSSL::Crypto`) — via vcpkg
+- **nlohmann_json** (`nlohmann_json::nlohmann_json`) — via vcpkg
+- **pthread** — auto-linked on Linux

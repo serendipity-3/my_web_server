@@ -27,7 +27,7 @@ std::string generate_filename_by_time(const std::string &filename, const std::st
 std::string get_file_content(const std::string &filename) {
     std::ifstream ifs(filename, std::ifstream::binary | std::ifstream::in);
     if (!ifs.is_open()) {
-        no("文件没打开", running_log_type);
+        no(running_log_type, "文件没打开", __FILE__, __LINE__);
         return "";
     }
 

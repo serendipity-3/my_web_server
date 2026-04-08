@@ -25,10 +25,10 @@ enum class LOG_TYPE {
 std::string curr_time();
 
 // 打印成功信息到文件或者终端
-void ok(const std::string &info, LOG_TYPE type);
+void ok(LOG_TYPE type, const std::string &info, const std::string &filename, int line_num);
 
 // 打印错误信息
-void no(const std::string &info,LOG_TYPE type);
+void no(LOG_TYPE type, const std::string &info, const std::string &filename, int line_num);
 
 // 信息写到文件里
 void to_file(const std::string &info, const std::string &path);
