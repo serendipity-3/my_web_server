@@ -12,6 +12,7 @@
 #include <unistd.h>
 #include <unordered_map>
 #include <cstring>
+#include <queue>
 #include <sys/stat.h>
 #include <nlohmann/json.hpp>
 
@@ -27,16 +28,35 @@ extern LOG_TYPE running_log_type;
 extern int epoll_fd;
 extern std::unordered_map<int, Connection> connections;
 extern std::mutex connections_mutex;
+extern std::mutex rearm_queue_mutex;
+
+extern void defer_rearm_fd(int fd);
 extern void defer_close_fd(int other_fd);
 
+
+
+
+enum class ConnectionState {
+    // 第一次放入 epoll 里
+    PROCESSING,
+    WAIT_CLOSE
+};
+
+// 暂存一个客户端的残缺请求数据
 struct Connection {
     int client_fd;
     int port;
     std::string ip;
-    std::string read_buffer;
-    bool request_completed;
-    bool processing;
+    std::string recv_request_buffer;
+    bool request_completed = false;
+    ConnectionState state;
+
+    Connection(int fd, int p, std::string addr, std::string buf, bool completed, ConnectionState s)
+        : client_fd(fd), port(p), ip(std::move(addr)), recv_request_buffer(std::move(buf)),
+          request_completed(completed), state(s) {}
 };
+
+
 
 enum class HttpParseResult {
     Incomplete,         // 还没读完

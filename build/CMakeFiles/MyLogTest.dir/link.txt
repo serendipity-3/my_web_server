@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/MyLogTest.dir/test/MyLogTest.cpp.o CMakeFiles/MyLogTest.dir/src/MyLog.cpp.o -o MyLogTest 

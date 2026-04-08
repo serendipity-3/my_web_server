@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/FileTest.dir/test/FileTest.cpp.o CMakeFiles/FileTest.dir/src/FileProcess.cpp.o CMakeFiles/FileTest.dir/src/MyLog.cpp.o -o FileTest 

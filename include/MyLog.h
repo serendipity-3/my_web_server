@@ -24,6 +24,12 @@ enum class LOG_TYPE {
 // 获取当前时间
 std::string curr_time();
 
+// 初始化日志文件（程序启动时调用）
+void init_log();
+
+// 关闭日志文件（程序退出时调用）
+void close_log();
+
 // 打印成功信息到文件或者终端
 void ok(LOG_TYPE type, const std::string &info, const std::string &filename, int line_num);
 
@@ -31,7 +37,7 @@ void ok(LOG_TYPE type, const std::string &info, const std::string &filename, int
 void no(LOG_TYPE type, const std::string &info, const std::string &filename, int line_num);
 
 // 信息写到文件里
-void to_file(const std::string &info, const std::string &path);
+void to_file(const std::string &info, bool is_ok);
 
 
 

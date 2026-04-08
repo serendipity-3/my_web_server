@@ -17,7 +17,6 @@
 #include "ThreadPool.h"
 
 
-
 extern LOG_TYPE start_log_type;
 
 // keep epoll-loop running
@@ -32,10 +31,24 @@ int epoll_fd;
 // The main thread will use the queue to close them.
 std::mutex close_queue_mutex;
 std::queue<int> close_queue;
-
 void defer_close_fd(int other_fd) {
     std::lock_guard<std::mutex> lock(close_queue_mutex);
     close_queue.push(other_fd);
+}
+
+// 可能子线程处理一个 client_fd 时，epoll 又收到了这个 fd 的读事件。导致主线程将这个 client_fd 加入任务队列。
+// 结果多个线程同时处理一个 client_fd 的 recv()，导致 HTTP 请求数据错乱。
+
+// 为了子线程处理当前 client_fd 时，不会触发多次 epoll 读事件。
+// 所以用了 EPOLLONESHOT。它只会通知一次，然后等我重新添加到 epoll 里，再通知下一次。
+
+// 为了让主线程知道[子线程处理完当前 clien_fd 了，并且数据没有读完，要下一次 epoll 交到任务队列，才能读完]。
+// 所以用一个队列，存没有读完的 client_fd，让主线程重新把它加入 epoll 里。
+std::mutex rearm_queue_mutex;
+std::queue<int> rearm_queue;
+void defer_rearm_fd(int fd) {
+    std::lock_guard<std::mutex> lock(rearm_queue_mutex);
+    rearm_queue.push(fd);
 }
 
 // 用一个 map 存所有的客户端连接
@@ -140,6 +153,9 @@ int main(int argc, char* argv[]) {
     const int port = 8888;
     const int MAX_EVENTS = 1024;
 
+    // 初始化日志文件
+    init_log();
+
     // SSL_library_init();                // 初始化 TLS 加密算法，静态全局
     // SSL_load_error_strings();         // 错误描述注册，静态全局
     // OpenSSL_add_all_algorithms();     // 加载所有加密算法，静态全局
@@ -178,6 +194,32 @@ int main(int argc, char* argv[]) {
 
     // GO, GO, GO
     while (!epoll_loop_stop) {
+        // 将未读完的 client_fd 重新加入 epoll里
+        {
+            std::unique_lock<std::mutex> lock(rearm_queue_mutex);
+            while (!rearm_queue.empty()) {
+                int fd = rearm_queue.front();
+                rearm_queue.pop();
+
+                epoll_event client_event{};
+                client_event.data.fd = fd;
+                client_event.events = EPOLLIN | EPOLLET | EPOLLONESHOT;
+
+                // 重新加入 epoll 里
+                if (epoll_ctl(epoll_fd, EPOLL_CTL_MOD, fd, &client_event) < 0) {
+                    // EBADF 说明 fd 已经被 close_queue 关了，不用重复关闭
+                    // 其他错误（EINVAL/EPERM）说明 fd 有问题，需要关闭
+                    if (errno != EBADF) {
+                        std::ostringstream oss;
+                        oss << "epoll_ctl MOD failed, fd: " << fd << ", error: " << strerror(errno);
+                        no(running_log_type, oss.str(), __FILE__, __LINE__);
+                        defer_close_fd(fd);
+                    }
+                }
+            }
+        }
+
+
         // 拿到一堆准备好的 fd
         int fds = epoll_wait(epoll_fd, events, MAX_EVENTS, -1);
 
@@ -222,16 +264,16 @@ int main(int argc, char* argv[]) {
                     set_non_blocking(client_fd);
 
                     // 加到 epoll 里。
-                    // 边缘触发 + 读事件
+                    // 读事件 + 边缘触发 + 只通知一次
                     epoll_event client_event{};
                     client_event.data.fd = client_fd;
-                    client_event.events = EPOLLIN | EPOLLET;
+                    client_event.events = EPOLLIN | EPOLLET | EPOLLONESHOT;
 
                     char ip_str[INET_ADDRSTRLEN];
                     inet_ntop(AF_INET, &client_addr.sin_addr, ip_str, sizeof(ip_str));
                     int port = ntohs(client_addr.sin_port);
 
-                    Connection new_connection {client_fd, port, ip_str, "", false, false};
+                    Connection new_connection {client_fd, port, std::string(ip_str), std::string(), false, ConnectionState::PROCESSING};
                     map_epoll_add_fd(epoll_fd, client_fd, &client_event, new_connection);
                 }
 
@@ -290,6 +332,9 @@ int main(int argc, char* argv[]) {
     close(epoll_fd);
 
     ok(running_log_type, "server stopped", __FILE__, __LINE__);
+
+    // 关闭日志文件
+    close_log();
 
     return 0;
 }

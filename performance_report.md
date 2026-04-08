@@ -5,34 +5,30 @@
 **Test Environment**: localhost
 
 ## Configuration
+- wrk 命令行测试工具
 - backlog: 2048
 - Thread pool: 8 threads (hardware_concurrency)
 
 ## Test Results (Python urllib)
 
-| Requests | Concurrency | Time | QPS |
-|----------|-------------|------|-----|
-| 1,000 | 50 | 0.55s | 1,810 |
-| 10,000 | 100 | 5.08s | 1,970 |
-| 20,000 | 200 | 9.95s | 2,009 |
+wrk -t8 -c8 -d10s http://localhost:8888/
+Running 20s test @ http://localhost:8888/
+8 threads and 8 connections
+Thread Stats   Avg      Stdev     Max   +/- Stdev
+Latency     3.19ms    1.51ms  35.33ms   71.80%
+Req/Sec   308.85     33.47   585.00     72.06%
+49267 requests in 20.04s, 4.89MB read
+Requests/sec:   2457.91
+Transfer/sec:    249.63KB
 
-## Previous Results (curl)
 
-| Test Type | Requests | Time | QPS |
-|-----------|----------|------|-----|
-| Concurrent (500) | 500 | 0.63s | ~792 |
-| Concurrent (2000) | 2000 | 2.82s | ~709 |
+wrk -t8 -c16 -d10s http://localhost:8888/
+Running 10s test @ http://localhost:8888/
+8 threads and 16 connections
+Thread Stats   Avg      Stdev     Max   +/- Stdev
+Latency    14.09ms   43.56ms 400.69ms   96.72%
+Req/Sec   292.62     45.02   434.00     84.15%
+22814 requests in 10.02s, 2.26MB read
+Requests/sec:   2275.73
+Transfer/sec:    231.13KB
 
-## Analysis
-
-1. **True Performance**: ~2000 QPS with proper concurrent testing
-2. **Bottleneck identified**: curl process overhead was limiting previous tests
-3. **Thread pool**: 8 threads handle requests efficiently
-4. **ab tool issue**: ApacheBench has compatibility issues with this server (only 1 request completes)
-
-## Optimization Suggestions
-
-1. Use sendfile() for file serving (zero-copy)
-2. Implement EPOLLOUT for large response support  
-3. Add HTTP keep-alive support to reduce connection overhead
-4. Consider using SO_REUSEPORT for multi-core scaling

@@ -17,13 +17,6 @@ void handle_client_read(int client_fd) {
         return;
     }
     Connection &connection = it->second;
-
-    // 防止多线程并发处理同一 fd
-    if (connection.processing) {
-        lock.unlock();
-        return;
-    }
-    connection.processing = true;
     lock.unlock();
 
     // 不是完整数据，继续读数据
@@ -36,16 +29,16 @@ void handle_client_read(int client_fd) {
         bytes_received = recv(client_fd, buffer, sizeof(buffer), 0);
 
         if (bytes_received > 0) {
-            connection.read_buffer.append(buffer, bytes_received);
+            connection.recv_request_buffer.append(buffer, bytes_received);
 
-            switch (check_http_request_status(connection.read_buffer)) {
+            switch (check_http_request_status(connection.recv_request_buffer)) {
                 case HttpParseResult::Complete:
                     // 终于是完整的请求了
                     connection.request_completed = true;
                     break;
                 case HttpParseResult::Incomplete:
                     continue; // 再试一次 recv
-                // 垃圾请求，滚蛋
+                // 垃圾请求，一边去
                 case HttpParseResult::HeaderTooLarge:
                 case HttpParseResult::BodyTooLarge:
                 case HttpParseResult::MalformedHeader:
@@ -59,14 +52,18 @@ void handle_client_read(int client_fd) {
             defer_close_fd(client_fd);
             // 甲方跑路了，不用干这个活了
             return;
+
         } else {
             if (errno == EAGAIN || errno == EWOULDBLOCK) {
                 // 没有数据可读，等下一次 epoll 通知
-                break;
+                // 当前 client_fd 放到 rearm_queue 里，让主线程重新把它加入 epoll 里，等下一次 epoll 通知它读数据
+                // 剩下的活交给队友了
+                defer_rearm_fd(client_fd);
+                return;
             }
             no(running_log_type, "recv 客户端数据出错", __FILE__, __LINE__);
             defer_close_fd(client_fd);
-            // 这个活不用干了
+            // 不用干这个活了
             return;
         }
     }
@@ -77,9 +74,9 @@ void handle_client_read(int client_fd) {
         // 用了个局部变量，默认后续的 process_http() 能处理完这一次请求，响应数据完整发送，交给主线程关闭客户端 fd
         std::map<std::string, std::string> request_map;
         // 解析成 map
-        request_str_to_map(connection.read_buffer, request_map);
+        request_str_to_map(connection.recv_request_buffer, request_map);
 
-        ok(running_log_type, connection.read_buffer, __FILE__, __LINE__);
+        ok(running_log_type, connection.recv_request_buffer, __FILE__, __LINE__);
 
         // 打印日志
         std::stringstream oss1;
@@ -99,7 +96,6 @@ void handle_client_read(int client_fd) {
 
         defer_close_fd(client_fd);
     }
-    connection.processing = false;
 }
 
 
@@ -548,16 +544,21 @@ int send_all(const std::string &response, Connection &connection) {
     const char *buf = response.c_str();
 
     while (send_sum < all_size) {
-        ssize_t send_part = send(fd, buf + send_sum, all_size - send_sum, 0);
+        ssize_t send_part = send(fd, buf + send_sum, all_size - send_sum, MSG_NOSIGNAL);
+        ok(running_log_type, "send_part: " + std::to_string(send_part) + " " + "send_all:" + std::to_string(all_size), __FILE__, __LINE__);
 
         if (send_part > 0) {
-            send_sum += send_part;
+            send_sum = send_sum + send_part;
         } else if (send_part == -1) {
             if (errno == EINTR) {
                 continue;
             }
-            no( running_log_type, "发不出去数据了", __FILE__, __LINE__);
-            return -1;  // EPIPE, ECONNRESET, EAGAIN 等都返回失败
+            if (errno == EAGAIN || errno == EWOULDBLOCK) {
+                usleep(1000);
+                continue;
+            }
+            no(running_log_type, "对面关闭了", __FILE__, __LINE__);
+            return -1;
         }
     }
 
